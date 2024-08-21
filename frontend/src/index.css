@@ -1,0 +1,143 @@
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
+
+@import url('https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@400;700&display=swap');
+
+/* Welcome Page containers */
+.container{
+    display: flex;
+    flex-direction: column;
+    max-width: 100%;
+    flex-grow:1;
+    justify-content: center;
+    align-items: center;
+}
+
+.container-header{
+    display: flex;
+    flex-direction: column;
+    flex-grow:1;
+    justify-content: center;
+    align-items: center;
+}
+
+.container-body{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 200px;
+    flex-grow: 1;
+}
+
+.container-actions{
+    display: flex;
+    flex-direction: column;
+    min-height: 100px;
+    min-width: 100%;
+    flex-grow: 1;
+    align-content: center;
+    
+}
+
+/* Signup Page Styles */
+
+.signup-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #111111;
+    color: #FFFFFF;
+    padding: 20px;
+}
+
+.signup-header {
+    width: 100%;
+    text-align: left;
+}
+
+.signup-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    flex-grow: 1;
+    width: 100%;
+    max-width: 400px;
+}
+
+.signup-image img {
+    max-width: 100%;
+    height: auto;
+    margin-bottom: 20px;
+}
+
+.signup-form {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.input-group {
+    margin-bottom: 15px;
+}
+
+.input-group label {
+    margin-bottom: 5px;
+    font-weight: bold;
+    display: block;
+}
+
+.input-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.input-wrapper input {
+    width: 100%;
+    padding: 12px 40px 12px 10px;
+    border: none;
+    border-radius: 5px;
+    background-color: #333333;
+    color: #FFFFFF;
+}
+
+.input-wrapper .icon {
+    position: absolute;
+    right: 10px;
+    color: #AAAAAA;
+}
+
+.join-button {
+    background-color: #6200EA;
+    color: white;
+    border: none;
+    padding: 15px 0;
+    border-radius: 25px;
+    cursor: pointer;
+    font-size: 18px;
+    margin-top: 20px;
+    width: 100%;
+}
+
+.join-button:hover {
+    background-color: #3700B3;
+}
+
+.signup-footer {
+    margin-top: 20px;
+    text-align: center;
+    width: 100%;
+}
+
+.signup-footer a {
+    color: #FFFFFF;
+    text-decoration: none;
+}
+
+.signup-footer a:hover {
+    text-decoration: underline;
+}
