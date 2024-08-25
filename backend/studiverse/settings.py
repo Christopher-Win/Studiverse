@@ -49,7 +49,6 @@ AUTHENTICATION_BACKENDS = [
 SESSION_COOKIE_SECURE = False  # Set to True in production with HTTPS
 CSRF_COOKIE_SECURE = False     # Set to True in production with HTTPS
 
-
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
@@ -59,13 +58,27 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    "studiverse.middleware.CrossOriginOpenerPolicyMiddleware",
 ]
-CORS_ALLOWED_ORIGINS = [
-    "http://localhost:3000",
-    "http://localhost:5173",  # Replace with your frontend URL
-]
-CORS_ALLOW_CREDENTIALS = True
 
+SECURE_CROSS_ORIGIN_OPENER_POLICY = None
+
+CORS_ALLOWED_ORIGINS = [
+    'http://127.0.0.1:5173',
+    "http://localhost:3000",
+    "http://localhost:8000",
+    'http://localhost:5173',  # Replace with your frontend URL
+]
+
+CORS_ALLOW_CREDENTIALS = True
+CORS_ALLOW_ALL_ORIGINS = True
+CORS_ALLOW_HEADERS = [
+    'origin',
+    'content-type',
+    'authorization',
+    'x-requested-with',
+    'x-csrftoken',
+]
 ROOT_URLCONF = "studiverse.urls"
 
 TEMPLATES = [

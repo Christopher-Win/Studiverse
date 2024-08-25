@@ -2,6 +2,17 @@ from rest_framework import serializers
 from .models import User
 from django.contrib.auth import login, logout, authenticate
 
+
+class UserProfileRenderSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = '__all__' # This will include all the fields in the User model
+        extra_kwargs = {
+            'password': {'write_only': True},  # This will ensure that the password field is write only and not returned in the response
+        }
+        
+            
+        
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User

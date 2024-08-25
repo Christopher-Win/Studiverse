@@ -26,7 +26,7 @@ type Button = {
 const Button: React.FC<Button> = ({children, onClick}) => {
   return (
     <>
-        <button onTouchStart={onClick} onClick={onClick} style= {styles.Button} className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded pt'>
+        <button onTouchStart={onClick} onClick={onClick} style = {styles.Button} className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded pt'>
             {children}
         </button>
     </>

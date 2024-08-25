@@ -1,5 +1,6 @@
 import React from 'react';
 import SessionsPreview from './SessionsPreview';
+import { useAuth } from '../components/AuthContext';
 
 
 const MainContent: React.FC = () => {

@@ -1,9 +1,12 @@
 import React from 'react';
+import { useAuth } from '../components/AuthContext';
 
 const SearchBar: React.FC = () => {
+    const { userData } = useAuth();
+
   return (
     <header className="p-4 bg-gray-800 flex items-center justify-between">
-      <h1 className="text-2xl font-semibold">Good morning, Student</h1>
+      <h1 className="text-2xl font-semibold">Good morning, {userData?.username}</h1>
       <input
         type="text"
         placeholder="Search study sessions, meetups, and peers"

@@ -14,10 +14,6 @@ const WelcomePage: React.FC = () => {
     const handleSignup = () => {
         navigate('/signup');
     }
-    
-    const csrfToken = getCookie('csrftoken');
-    console.log('CSRF token:', csrfToken);
-    
     return (
     <div className='min-h-screen container bg-[#161616] text-white'>
 

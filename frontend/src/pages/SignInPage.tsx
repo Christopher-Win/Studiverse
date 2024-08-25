@@ -1,9 +1,19 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import LoginHeader from '../components/LoginHeader';
 import LoginForm from '../components/LoginForm';
 import '../Login.css'; // External CSS for styling
-
+import { getCookie } from '../components/AuthContext';
 const Login: React.FC = () => {
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        const token = getCookie('token'); // Check if logged in
+        if(token){
+            navigate('/home');
+        }
+    }, []);
+    
     return (
         <div className="login-container">
             <LoginHeader />

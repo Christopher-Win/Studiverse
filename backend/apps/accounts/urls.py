@@ -5,6 +5,7 @@ from ..inbox.views import CreateFriendRequestView
 urlpatterns = [
     path('signup/', UserCreateView.as_view(), name='user-create'),
     path('login/', LoginView.as_view(), name='user-login'),
+    path('profile/', UserProfileRenderView.as_view(), name='current-user-profile'),
     path('edit/', UserProfileUpdateView.as_view(), name='user-profile-update'),
     path('<str:profileName>/', UserProfileByNameView.as_view(), name='user-profile-by-name'),
     path('<str:profileName>/add', CreateFriendRequestView.as_view(), name='request-friend-by-name'), # This should send a friend request.

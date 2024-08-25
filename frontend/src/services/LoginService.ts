@@ -12,7 +12,7 @@ export const loginUser = async (loginData: LoginData): Promise<void> => {
             headers: {
                 'Content-Type': 'application/json',
             },
-            withCredentials: true, 
+            withCredentials: true, // Send cookies with the request
         });
 
         console.log('Login successful:', response.data);

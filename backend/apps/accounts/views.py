@@ -15,7 +15,21 @@ from django.middleware.csrf import get_token
 import datetime
 import json
 
-
+#   FETCH CURRENT USER PROFILE     #
+class UserProfileRenderView(APIView):
+    permission_classes = [AllowAny]
+    serializer_class = UserProfileRenderSerializer
+    
+    def get(self, request, *args, **kwargs):
+        user = request.user  # Get the current logged-in user based off their "token" cookie. Handled by the built in Django TokenAuthentication
+        user_data = UserProfileRenderSerializer(user).data  # Serialize the user data
+        print("Data requested:", user_data)  # Debug print statement
+        # Structure response data
+        # data = {
+        #     "user": user_data
+        # }
+        return Response(user_data, status=status.HTTP_200_OK)
+    
 class UserCreateView(generics.CreateAPIView):
     queryset = User.objects.all()
     serializer_class = UserSerializer
@@ -28,9 +42,9 @@ class UserCreateView(generics.CreateAPIView):
         user = serializer.save() # This will trigger the create method in the UserSerializer class
         return Response(UserSerializer(user).data, status=status.HTTP_201_CREATED)
 
+#   UPDATE USER PROFILE     #
 class UserProfileUpdateView(generics.UpdateAPIView):
     permission_classes = [IsAuthenticated]
-    
    
     def patch(self, request, *args, **kwargs):
         user = request.user  # Get the current logged-in user
@@ -40,7 +54,7 @@ class UserProfileUpdateView(generics.UpdateAPIView):
             return Response(serializer.data, status=status.HTTP_200_OK)  # Return the updated data
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)  # Return errors if validation fails
         
-
+#   LOGIN TO ACCOUNT  #
 class LoginView(APIView):
     permission_classes = [AllowAny]
 
@@ -63,7 +77,8 @@ class LoginView(APIView):
         # Set a CSRF token cookie, if needed
         response.set_cookie('csrftoken', get_token(request), httponly=True)
         return response
-
+    
+# FETCH USER PROFILE BY USERNAME #
 class UserProfileByNameView(APIView):
     permission_classes = [IsAuthenticated] 
     
@@ -73,12 +88,12 @@ class UserProfileByNameView(APIView):
         profile_data = UserSerializer(profile).data
         print("Data requested by:", request.user.username)  # Debug print statement
         print("User's Cookies:", request.COOKIES)  # Debug print statement
+        
+        # Structure response data
         data = {
             "user": profile_data
         }
         return Response(data, status=status.HTTP_200_OK)
-        # Convert the profile_data to a dictionary
-        # return Response([profile_data], status=status.HTTP_200_OK)
 
 
 class UserFriendsListView(APIView):
