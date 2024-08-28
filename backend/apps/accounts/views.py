@@ -11,6 +11,7 @@ from rest_framework.authentication import TokenAuthentication
 from django.shortcuts import get_object_or_404
 from django.http import JsonResponse
 from django.middleware.csrf import get_token
+from django.contrib.postgres.search import SearchVector, SearchQuery, SearchRank,TrigramSimilarity
 
 import datetime
 import json
@@ -44,7 +45,7 @@ class UserCreateView(generics.CreateAPIView):
 
 #   UPDATE USER PROFILE     #
 class UserProfileUpdateView(generics.UpdateAPIView):
-    permission_classes = [IsAuthenticated]
+    permission_classes = [AllowAny]
    
     def patch(self, request, *args, **kwargs):
         user = request.user  # Get the current logged-in user
@@ -80,7 +81,7 @@ class LoginView(APIView):
     
 # FETCH USER PROFILE BY USERNAME #
 class UserProfileByNameView(APIView):
-    permission_classes = [IsAuthenticated] 
+    permission_classes = [AllowAny] 
     
     def get(self, request, *args, **kwargs):
         profileName = kwargs.get('profileName')
@@ -90,11 +91,33 @@ class UserProfileByNameView(APIView):
         print("User's Cookies:", request.COOKIES)  # Debug print statement
         
         # Structure response data
-        data = {
-            "user": profile_data
-        }
+        data = [profile_data]
         return Response(data, status=status.HTTP_200_OK)
 
+#  SEARCH FOR USERS BY USERNAME, EMAIL  #
+class UserSearchView(APIView):
+    permission_classes = [AllowAny]
+    
+    def get(self, request, *args, **kwargs):
+        query = kwargs.get('query')
+        print("Query:", query)  # Debug print statement
+        if query:
+            search_vector = SearchVector('username', 'netID', 'first_name', 'last_name')
+            search_query = SearchQuery(query)
+
+            results = User.objects.annotate(
+                rank=SearchRank(search_vector, search_query) + 
+                      TrigramSimilarity('username', query) + 
+                      TrigramSimilarity('netID', query) + 
+                      TrigramSimilarity('first_name', query) + 
+                      TrigramSimilarity('last_name', query)
+            ).filter(rank__gt=0.6).order_by('-rank')
+            for user in results:
+                print(user.username, user.rank)
+            serializer = UserSerializer(results, many=True)
+            return Response(serializer.data, status=status.HTTP_200_OK)
+
+        return Response([], status=status.HTTP_200_OK)
 
 class UserFriendsListView(APIView):
     permission_classes = [IsAuthenticated]

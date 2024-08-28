@@ -36,13 +36,14 @@ class UserSerializer(serializers.ModelSerializer):
         )
         return user
 
+
 # This will be used to update the user profile information in the database when the user sends a PATCH request to the /edit/ endpoint
 class UserProfileUpdateSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = [
             'username', 'email', 'first_name', 'last_name', 'sex', 
-            'major', 'gpa', 'date_of_birth', 'year_in_school', 
+            'major', 'gpa', 'date_of_birth', 'year_in_school','profile_image' 
         ]
         extra_kwargs = {
             'username': {'read_only': True},  # Username shouldn't be updated

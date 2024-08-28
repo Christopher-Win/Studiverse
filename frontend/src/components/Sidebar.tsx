@@ -1,22 +1,33 @@
 import React from 'react';
+import '../index.css'
+import '@fortawesome/fontawesome-free/css/all.min.css';
+import { Link } from 'react-router-dom';
 
 const Sidebar: React.FC = () => {
   return (
-    <aside className="w-64 bg-gray-800 p-4 flex flex-col">
-      <nav>
-        <ul className="space-y-4">
-          <li>
-            <a href="/sessions" className="text-lg hover:text-purple-400">My Sessions</a>
-          </li>
-          <li>
-            <a href="/friends" className="text-lg hover:text-purple-400">Friends</a>
-          </li>
-          <li>
-            <a href="/calendar" className="text-lg hover:text-purple-400">Calendar</a>
-          </li>
-        </ul>
-      </nav>
-    </aside>
+    <nav className="sidebar">
+      <ul className="sidebar-menu">
+        <li className="sidebar-item">
+          <Link to="/home" className="sidebar-link">
+            <i className="fas fa-home"></i> {/* Home Icon */}
+            <p>Home</p>
+          </Link>
+        </li>
+        <li className="sidebar-item">
+          <Link to="/friends" className="sidebar-link">
+            <i className="fas fa-user-group"></i> {/* Friends Icon */}
+            <p>Friends</p>
+          </Link>
+        </li>
+        <li className="sidebar-item">
+          <Link to="/friends" className="sidebar-link">
+            <i className="fas fa-inbox"></i> {/* Friends Icon */}
+            <p>Invites</p>
+          </Link>
+        </li>
+        {/* Add more sidebar items here */}
+      </ul>
+    </nav>
   );
 };
 

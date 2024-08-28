@@ -1,22 +1,82 @@
-import React from 'react';
+import React, { ReactNode, useState } from 'react';
+import axios from 'axios';
 import { useAuth } from '../components/AuthContext';
+import SearchResultsDropdown from './SearchResultsDropdown';
 
+import './SearchBar.css'; // Optional, for styling
+
+interface User {
+    netID: string;
+    last_name: ReactNode;
+    first_name: ReactNode;
+    username: string;
+    profile_image: string;
+  }
+  
 const SearchBar: React.FC = () => {
-    const { userData } = useAuth();
+    const [query, setQuery] = useState<string>('');
+    const [results, setResults] = useState<User[]>([]);
+    const [showDropdown, setShowDropdown] = useState<boolean>(false);
 
-  return (
-    <header className="p-4 bg-gray-800 flex items-center justify-between">
-      <h1 className="text-2xl font-semibold">Good morning, {userData?.username}</h1>
-      <input
-        type="text"
-        placeholder="Search study sessions, meetups, and peers"
-        className="ml-4 p-2 rounded-md bg-gray-700 border border-gray-600 focus:outline-none focus:border-purple-400 w-full max-w-lg"
-      />
-      <button className="ml-4 bg-purple-600 text-white px-4 py-2 rounded-md hover:bg-purple-700">
-        + New session
-      </button>
-    </header>
-  );
+    const handleSearch = async (e: React.ChangeEvent<HTMLInputElement>) => {
+        const query = e.target.value;
+        setQuery(query);
+
+        if (query.length > 1) { // Start searching after 3 characters 
+        try {
+            setShowDropdown(true);
+            const response = await axios.get(`http://localhost:8000/search/${query}/`,{
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                withCredentials: true, // Send cookies with the request
+            });
+            setResults(response.data);
+            console.log('Search results:', results);
+        } catch (error) {
+             console.error('User not found:', query);
+             setResults([]);
+        }
+        } else {
+            setResults([]);
+            setShowDropdown(false); // Hide modal if the query is too short
+        }
+    };
+
+    const handleCloseDropdown = () => {
+        setShowDropdown(false);
+        setQuery('');
+        setResults([]);
+    };
+
+    const handleFocus = () => {
+        if (query.length > 2) {
+          setShowDropdown(true);
+        }
+      };
+    
+      const handleBlur = () => {
+        setTimeout(() => {
+          setShowDropdown(false);
+        }, 200); // Delay to allow clicks on dropdown items
+      };
+
+    return (
+        <div className="search-bar">
+            <input
+                type="text"
+                placeholder="Search users..."
+                value={query}
+                onChange={handleSearch}
+                className="search-input"
+                onFocus={handleFocus}
+                onBlur={handleBlur}
+            />
+            {showDropdown && (
+                <SearchResultsDropdown results={results} onClose={handleCloseDropdown} />
+            )}
+        </div>
+    );
 };
 
 export default SearchBar;

@@ -1,5 +1,8 @@
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin
+from django.contrib.postgres.search import SearchVectorField
+from django.contrib.postgres.indexes import GinIndex
+from django.contrib.postgres.search import SearchVector
 
 class CustomUserManager(BaseUserManager): # this will be called whenever we call User.objects.create_user
     def create_user(self, netID, username, email, first_name, last_name, password, **extra_fields):
@@ -52,8 +55,33 @@ class User(AbstractBaseUser, PermissionsMixin):
         choices=YEAR_IN_SCHOOL_CHOICES,
         default=FRESHMAN,
     )
-    
+    # For search Indexing 
+    class Meta:
+        indexes = [
+            GinIndex(
+                fields=['username'],
+                name='username_gin_idx',
+                opclasses=['gin_trgm_ops']
+            ),
+            GinIndex(
+                fields=['netID'],
+                name='netid_gin_idx',
+                opclasses=['gin_trgm_ops']
+            ),
+            GinIndex(
+                fields=['first_name'],
+                name='firstname_gin_idx',
+                opclasses=['gin_trgm_ops']
+            ),
+            GinIndex(
+                fields=['last_name'],
+                name='lastname_gin_idx',
+                opclasses=['gin_trgm_ops']
+            ),
+        ]
     friends = models.ManyToManyField('self', blank=True) # This will create a many-to-many relationship between the User model and itself
+       
+
     def remove_friend(self, friend):
         """
         Removes the friend relationship from both sides.

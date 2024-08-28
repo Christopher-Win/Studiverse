@@ -1,8 +1,13 @@
 import { useAuth } from '../components/AuthContext';
+import '../index.css'
 
 import React from 'react';
 import HomeHeader from '../components/HomeHeader';
-// import Sidebar from '../components/Sidebar';
+import Sidebar from '../components/Sidebar';
+import Header from '../components/Home/Main/Header';
+import CurrentSession from '../components/Home/Main/CurrentSession';
+import ActiveFriends from '../components/Home/Main/ActiveFriends';
+
 // import SearchBar from '../components/SearchBar';
 // import MySessions from './MySessions';
 // import UpcomingSessions from '../components/UpcomingSessions';
@@ -12,41 +17,29 @@ import HomeHeader from '../components/HomeHeader';
 
 const Home: React.FC = () => {
   return (
-    <div className="flex flex-col min-h-screen bg-gray-900 text-white">
+    <div className="home-container">
       {/* Header Component */}
-      <HomeHeader />
+        <header className='home-header'>
+            <HomeHeader />
+        </header>
 
-      {/* Main Content Section */}
-      <main className="main-content">
         {/* Sidebar Component */}
-        {/* <Sidebar /> */}
-
-        {/* Main Dashboard Area */}
-        <section className="dashboard">
-          {/* Search Bar */}
-          {/* <SearchBar /> */}
-
-          {/* Welcome & New Session Button */}
-          <div className="welcome-section">
-           
-            {/* <NewSessionButton /> */}
-          </div>
-
-          {/* My Sessions Component */}
-          {/* <MySessions /> */}
-
-          {/* Total Study Hours Chart */}
-          {/* <StudyHoursChart /> */}
-
-          {/* Upcoming Sessions Component */}
-          {/* <UpcomingSessions /> */}
-        </section>
-
-        {/* Calendar Widget */}
-        <aside className="calendar-widget">
-          {/* <CalendarWidget /> */}
+        <aside className='sidebar'>
+            <Sidebar />
         </aside>
-      </main>
+        
+
+        {/* Main Content Section */}
+        {/* THE MAIN GRID AREA HAS 3 ROWS: HEADER - ACTIVE FRIENDS - STATS CHART */}
+        <main className="home-main">
+            <Header />
+            <CurrentSession />
+            <ActiveFriends />
+        </main>
+
+        <aside className="home-schedule">
+            <p>Calendar</p>
+        </aside>
     </div>
   );
 };

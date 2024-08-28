@@ -2,6 +2,7 @@ import React from 'react'
 import Button from './Button'
 // import useLogoutService from '../services/LogoutService'
 import { useNavigate } from 'react-router-dom'
+import '../index.css'
 
 const deleteCookie = (name: string) => {
     document.cookie = `${name}=; Max-Age=-99999999;`;
@@ -19,7 +20,7 @@ const LogoutButton: React.FC = () => {
     
   return (
     <>
-        <button onClick={handleLogout} className="ml-4 bg-purple-600 text-white px-4 py-2 rounded-md hover:bg-purple-700">
+        <button onClick={handleLogout} className="home-header-button">
             Logout
         </button>
     </>

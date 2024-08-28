@@ -1,0 +1,327 @@
+/* Dropdown container */
+.search-results-dropdown {
+    position: absolute;
+    top: 100%; /* Position below the search input */
+    left: 0;
+    right: 0;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    width: 100%;
+    background-color: #000000;
+    border-radius: 10px;
+    height: calc(50vh - 60px);
+    overflow-y: auto;
+    z-index: 1000;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Individual result item */
+  .search-result-item {
+    position: relative;
+    display: block;
+    box-sizing: border-box;
+    direction: ltr;
+    flex-basis: auto;
+    flex-direction: row;
+    justify-content: start;
+    align-items: stretch;
+    color-scheme: dark;
+    line-height: 18px;
+    cursor: pointer;
+  }
+.search-result-item-contents {
+    position: relative;
+    align-items: center;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: row;
+    flex-shrink: 0;
+    flex-wrap: nowrap;
+    height: 44px;
+    justify-content: space-between;
+    width: 333px;
+    z-index: 0;
+
+    /* Text Properties */
+    text-size-adjust: 100%;
+    direction: ltr;
+    font-family: -apple-system, "system-ui", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    font-size: 14px;
+    line-height: 18px;
+    text-align: start;
+
+    /* Appearance Properties */
+    color: rgb(224, 241, 255);
+    cursor: pointer;
+
+    /* Other Properties */
+    color-scheme: dark;
+    list-style-image: none;
+    list-style-position: outside;
+    list-style-type: none;
+    unicode-bidi: isolate;
+    user-select: none;
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+    }
+
+.search-result-item-content-left{
+    position: relative;
+    align-self: center;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    flex-shrink: 0;
+    height: 44px;
+    max-width: 100%;
+    min-width: 0px;
+    width: 56px;
+    z-index: 0;
+
+    /* Text Properties */
+    text-size-adjust: 100%;
+    direction: ltr;
+    font-family: -apple-system, "system-ui", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    font-size: 14px;
+    line-height: 18px;
+    text-align: start;
+
+    /* Appearance Properties */
+    color: rgb(224, 241, 255);
+    cursor: pointer;
+
+    /* Other Properties */
+    color-scheme: dark;
+    list-style-image: none;
+    list-style-position: outside;
+    list-style-type: none;
+    unicode-bidi: isolate;
+    user-select: none;
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+}
+
+.profile-pic-box{
+    position: static;
+    align-content: stretch;
+    align-items: stretch;
+    align-self: auto;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 0;
+    flex-shrink: 0;
+    height: 44px;
+    justify-content: flex-start;
+    margin-right: 12px;
+    overflow-x: visible;
+    overflow-y: visible;
+    width: 44px;
+
+    /* Text Properties */
+    text-size-adjust: 100%;
+    direction: ltr;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    font-size: 14px;
+    line-height: 18px;
+    text-align: start;
+
+    /* Appearance Properties */
+    color: rgb(224, 241, 255);
+    background-color: rgba(0, 0, 0, 0);
+    cursor: pointer;
+
+    /* Other Properties */
+    color-scheme: dark;
+    border-bottom-left-radius: 0px;
+    border-bottom-right-radius: 0px;
+    border-top-left-radius: 0px;
+    border-top-right-radius: 0px;
+    list-style-image: none;
+    list-style-position: outside;
+    list-style-type: none;
+    unicode-bidi: isolate;
+    user-select: none;
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+}
+.search-result-item-content-right {
+    position: relative;
+    align-items: center;
+    box-sizing: border-box;
+    display: flex;
+    flex-basis: auto;
+    flex-direction: row;
+    flex-grow: 1;
+    flex-shrink: 1;
+    flex-wrap: wrap;
+    height: 36px;
+    justify-content: space-between;
+    min-width: 0px;
+    width: 277px;
+    z-index: 0;
+  
+    /* Text Properties */
+    text-size-adjust: 100%;
+    direction: ltr;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    font-size: 14px;
+    line-height: 18px;
+    text-align: start;
+  
+    /* Appearance Properties */
+    color: rgb(224, 241, 255);
+    cursor: pointer;
+  
+    /* Other Properties */
+    color-scheme: dark;
+    list-style-image: none;
+    list-style-position: outside;
+    list-style-type: none;
+    unicode-bidi: isolate;
+    user-select: none;
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  }
+  .search-result-item-content-right-inner {
+    position: static;
+    align-content: stretch;
+    align-items: flex-start;
+    align-self: auto;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    height: 36px;
+    justify-content: flex-start;
+    min-height: 0px;
+    min-width: 0px;
+    overflow-x: visible;
+    overflow-y: visible;
+    width: 277px;
+  
+    /* Text Properties */
+    text-size-adjust: 100%;
+    direction: ltr;
+    font-family: -apple-system, "system-ui", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    font-size: 14px;
+    line-height: 18px;
+    text-align: start;
+  
+    /* Appearance Properties */
+    color: rgb(224, 241, 255);
+    background-color: rgba(0, 0, 0, 0);
+    cursor: pointer;
+  
+    /* Other Properties */
+    color-scheme: dark;
+    border-bottom-left-radius: 0px;
+    border-bottom-right-radius: 0px;
+    border-top-left-radius: 0px;
+    border-top-right-radius: 0px;
+    list-style-image: none;
+    list-style-position: outside;
+    list-style-type: none;
+    unicode-bidi: isolate;
+    user-select: none;
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  }
+  .user-username {
+    position: static;
+    align-content: stretch;
+    align-items: center;
+    align-self: auto;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: row;
+    flex-grow: 0;
+    flex-shrink: 0;
+    height: 18px;
+    justify-content: flex-start;
+    overflow-x: visible;
+    overflow-y: visible;
+    width: 46.0312px;
+
+    /* Text Properties */
+    text-size-adjust: 100%;
+    direction: ltr;
+    font-family: -apple-system, "system-ui", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 18px;
+    text-align: start;
+
+    /* Appearance Properties */
+    color: rgb(224, 241, 255);
+    background-color: rgba(0, 0, 0, 0);
+    cursor: pointer;
+
+    /* Other Properties */
+    color-scheme: dark;
+    border-bottom-left-radius: 0px;
+    border-bottom-right-radius: 0px;
+    border-top-left-radius: 0px;
+    border-top-right-radius: 0px;
+    list-style-image: none;
+    list-style-position: outside;
+    list-style-type: none;
+    unicode-bidi: isolate;
+    user-select: none;
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+}
+.user-social-contex {
+    position: relative;
+    display: block;
+    height: 18px;
+    margin-bottom: 0px;
+    margin-left: 0px;
+    margin-right: 0px;
+    margin-top: 0px;
+    max-width: 100%;
+    min-width: 0px;
+    overflow-x: visible;
+    overflow-y: visible;
+    width: 90%;
+
+    /* Text Properties */
+    text-size-adjust: 100%;
+    direction: ltr;
+    font-family: -apple-system, "system-ui", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    font-size: 14px;
+    font-weight: 300;
+    line-height: 18px;
+    text-align: start;
+    text-wrap: wrap;
+    white-space: pre-wrap;
+    white-space-collapse: preserve-breaks;
+    word-break: break-word;
+
+    /* Appearance Properties */
+    color: rgb(168, 168, 168);
+    cursor: pointer;
+
+    /* Other Properties */
+    color-scheme: dark;
+    list-style-image: none;
+    list-style-position: outside;
+    list-style-type: none;
+    overflow-wrap: break-word;
+    unicode-bidi: isolate;
+    user-select: none;
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+}
+  .search-result-item:hover {
+    background-color: #1c1c1c;
+  }
+  
+  /* Profile image inside the results */
+  .profile-img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    margin-right: 10px;
+  }
+  
+  /* Link styling */
+  .profile-link {
+    text-decoration: none;
+    color: #ffffff;
+    font-weight: normal;
+  }
