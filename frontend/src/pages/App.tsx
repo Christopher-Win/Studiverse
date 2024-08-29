@@ -5,6 +5,7 @@ import WelcomePage from './WelcomePage';
 import SignupPage from './SignupPage';
 import SignInPage from './SignInPage';
 import Home from './Home';
+import Profile from './Profile';
 import ProtectedRoute from '../components/ProtectedRoute';
 import { AuthProvider } from '../components/AuthContext';
 
@@ -21,6 +22,7 @@ const App: React.FC = () => {
                     <Route element={<ProtectedRoute />}>
                         <Route path="/home" element={<Home />} />
                         
+                        <Route path="/:username" element={<Profile/>} />
                         {/* Add more protected routes here */}
                     </Route>
                 </Routes>

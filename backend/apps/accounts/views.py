@@ -80,13 +80,13 @@ class LoginView(APIView):
         return response
     
 # FETCH USER PROFILE BY USERNAME #
-class UserProfileByNameView(APIView):
+class UserProfileView(APIView):
     permission_classes = [AllowAny] 
     
     def get(self, request, *args, **kwargs):
         profileName = kwargs.get('profileName')
-        profile = get_object_or_404(User, netID=profileName)
-        profile_data = UserSerializer(profile).data
+        profile = get_object_or_404(User, username=profileName)
+        profile_data = UserProfileRenderSerializer(profile).data
         print("Data requested by:", request.user.username)  # Debug print statement
         print("User's Cookies:", request.COOKIES)  # Debug print statement
         

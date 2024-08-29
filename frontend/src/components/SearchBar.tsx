@@ -43,10 +43,14 @@ const SearchBar: React.FC = () => {
         }
     };
 
-    const handleCloseDropdown = () => {
-        setShowDropdown(false);
+    const clearSearch = () => {
         setQuery('');
         setResults([]);
+    };
+
+    const handleCloseDropdown = () => {
+        setShowDropdown(false);
+        clearSearch();
     };
 
     const handleFocus = () => {
@@ -71,7 +75,15 @@ const SearchBar: React.FC = () => {
                 className="search-input"
                 onFocus={handleFocus}
                 onBlur={handleBlur}
-            />
+            />{query && (
+                <button
+                    type="button"
+                    onClick={clearSearch}
+                    className="clear-button"
+                >
+                   <i className="fas fa-xs fa-xmark border-4 bg-white rounded-full pt-1 pb-1 border-stone-50"></i> {/* Friends Icon */}
+                </button>
+            )}
             {showDropdown && (
                 <SearchResultsDropdown results={results} onClose={handleCloseDropdown} />
             )}
