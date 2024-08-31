@@ -1,18 +1,15 @@
 
 export default function getCookie(name: string): string | null {
-    let cookieValue = null;
-    if (document.cookie && document.cookie !== '') {
-        const cookies = document.cookie.split(';');
-        for (let i = 0; i < cookies.length; i++) {
-            const cookie = cookies[i].trim();
-            // Does this cookie string begin with the name we want?
-            if (cookie.substring(0, name.length + 1) === (name + '=')) {
-                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-                break;
-            }
+    const csrfCookieName = 'csrftoken';
+    const cookies = document.cookie.split(';');
+    
+    for (let cookie of cookies) {
+        const cookiePair = cookie.trim().split('=');
+        if (cookiePair[0] === csrfCookieName) {
+            return decodeURIComponent(cookiePair[1]);
         }
     }
-    return cookieValue;
+    return null; // Return null if CSRF token not found in cookies
 }
 
 

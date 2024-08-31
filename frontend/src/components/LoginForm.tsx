@@ -38,7 +38,7 @@ const LoginForm: React.FC = () => {
         try {
             await loginUser({ netID, password });
             fetchUserData();
-
+            console.log('Navigating to Home');
             navigate('/home');
 
         } catch (error) {

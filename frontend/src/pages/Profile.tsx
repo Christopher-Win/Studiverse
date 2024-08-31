@@ -6,38 +6,40 @@ import axios from 'axios';
 import { useParams } from 'react-router-dom';
 import {getCookie} from '../components/AuthContext';
 
-interface UserProfileData {
+interface UserData {
   username: string;
   first_name: string;
   last_name: string;
-  bio: string;
-  profile_picture: string;
+  bio?: string;
+  profile_image?: string;
   // Add other fields as necessary
 }
 
 const Profile: React.FC = () => {
   const { username } = useParams<{ username: string }>();
-  const [userData, setUserData] = useState<UserProfileData | null>(null);
-
+  const [userData, setUserData] = useState<UserData | null>(null);
   useEffect(() => {
+
     const fetchUserData = async () => {
         const token = getCookie('token');
         if (token) {
-            try {
-                console.log(username);
-                const response = await axios.get(`http://localhost:8000/${username}/`, {
-                headers: {
-                    'Authorization': `Token ${token}`,
-                    'Content-Type': 'application/json',
-                },
-                });
-                setUserData(response.data);
-            } catch (error) {
-                console.error('Failed to fetch user data:', error);
-                setUserData(null);
-            }
-        } else {
+        try {
+            const response = await axios.get(`http://localhost:8000/${username}/`, {
+            headers: {
+                'Authorization': `Token ${token}`,
+                'Content-Type': 'application/json',
+            },
+            // withCredentials: true, // Send cookies with the request
+            });
+            
+            setUserData(response.data[0]);
+            console.log(response.data[0]);
+        } catch (error) {
+            console.error('Failed to fetch user data:', error);
             setUserData(null);
+        }
+        } else {
+        setUserData(null);
         }
     };
 
@@ -49,12 +51,18 @@ const Profile: React.FC = () => {
         <div className="sidebar">
             <Sidebar />
         </div>
-        <div className="profile-main-content">
+        <div className="profile-page-main-content">
             {userData ? (
-            <>
-                <ProfileHeader userData={userData} />
-                <ProfileContent userData={userData} />
-            </>
+            <section className="main-content-inner">
+                <main className="main-content-inner-main">
+                    <div className='main-content-inner-main-inside'>
+                        <header className='profile-header'>
+                            <ProfileHeader userData={userData} />
+                        </header>
+                        <ProfileContent userData={userData} />
+                    </div>
+                </main>
+            </section>
             ) : (
             <div>Loading...</div>
             )}

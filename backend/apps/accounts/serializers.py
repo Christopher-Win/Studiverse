@@ -1,16 +1,31 @@
 from rest_framework import serializers
 from .models import User
 from django.contrib.auth import login, logout, authenticate
+from urllib.parse import unquote
+from django.utils import timezone
 
+class ExcludeFieldsMixin:
+    def __init__(self, *args, exclude_fields=None, **kwargs):
+        super().__init__(*args, **kwargs)
+        if exclude_fields:
+            for field in exclude_fields:
+                self.fields.pop(field)
+                
+class UserProfileRenderSerializer(ExcludeFieldsMixin, serializers.ModelSerializer):
+    profile_image = serializers.SerializerMethodField()
 
-class UserProfileRenderSerializer(serializers.ModelSerializer):
+    def get_profile_image(self, obj):
+        # Modify the profile_image field before returning. This gives the proper image URL
+        if obj.profile_image:
+            return f"{obj.profile_image}"
+        return None
+
     class Meta:
         model = User
-        fields = '__all__' # This will include all the fields in the User model
+        fields = '__all__'
         extra_kwargs = {
-            'password': {'write_only': True},  # This will ensure that the password field is write only and not returned in the response
+            'password': {'write_only': True},
         }
-        
             
         
 class UserSerializer(serializers.ModelSerializer):

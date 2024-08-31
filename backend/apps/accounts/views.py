@@ -12,18 +12,21 @@ from django.shortcuts import get_object_or_404
 from django.http import JsonResponse
 from django.middleware.csrf import get_token
 from django.contrib.postgres.search import SearchVector, SearchQuery, SearchRank,TrigramSimilarity
+from django.views.decorators.csrf import csrf_exempt
 
 import datetime
 import json
 
 #   FETCH CURRENT USER PROFILE     #
+
 class UserProfileRenderView(APIView):
     permission_classes = [AllowAny]
     serializer_class = UserProfileRenderSerializer
     
     def get(self, request, *args, **kwargs):
+        print(request.user)
         user = request.user  # Get the current logged-in user based off their "token" cookie. Handled by the built in Django TokenAuthentication
-        user_data = UserProfileRenderSerializer(user).data  # Serialize the user data
+        user_data = UserProfileRenderSerializer(user, exclude_fields=['profile_image']).data  # Serialize the user data
         print("Data requested:", user_data)  # Debug print statement
         # Structure response data
         # data = {
@@ -54,11 +57,29 @@ class UserProfileUpdateView(generics.UpdateAPIView):
             serializer.save()  # Save the updated profile information
             return Response(serializer.data, status=status.HTTP_200_OK)  # Return the updated data
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)  # Return errors if validation fails
-        
+
+class UploadProfileImageView(APIView):
+    permission_classes = [AllowAny]
+    
+    def post(self,request):
+        if request.method == 'POST' and request.FILES.get('file'):
+            profile = get_object_or_404(User, username="Chris.nguy")
+            profile.profile_image = request.FILES['file']
+            profile.profile_image = request.build_absolute_uri(profile.profile_image.url)
+            profile.save()
+            # Build the absolute URL for the image
+            absolute_url = str(profile.profile_image)
+            print(type(absolute_url))  # Debug print statement
+            print("Absolute URL:", absolute_url)  # Debug print statement
+            return JsonResponse({'imageUrl': absolute_url})
+        return JsonResponse({'error': 'Invalid request'}, status=400)
+    
 #   LOGIN TO ACCOUNT  #
+
 class LoginView(APIView):
     permission_classes = [AllowAny]
-
+    
+    # @csrf_exempt
     def post(self, request, *args, **kwargs):
         serializer = LoginSerializer(data=request.data, context={'request': request}) # This will create a new instance of the LoginSerializer class and set data of the serializer to the incoming data
         serializer.is_valid(raise_exception=True)
@@ -76,7 +97,7 @@ class LoginView(APIView):
         )
         
         # Set a CSRF token cookie, if needed
-        response.set_cookie('csrftoken', get_token(request), httponly=True)
+        response.set_cookie('csrftoken', get_token(request), httponly=False)
         return response
     
 # FETCH USER PROFILE BY USERNAME #
@@ -87,14 +108,18 @@ class UserProfileView(APIView):
         profileName = kwargs.get('profileName')
         profile = get_object_or_404(User, username=profileName)
         profile_data = UserProfileRenderSerializer(profile).data
+        # profile_data['profile_image'] = profile.profile_image
+        # print(profile_data['profile_image'])  # Debug print statement
         print("Data requested by:", request.user.username)  # Debug print statement
         print("User's Cookies:", request.COOKIES)  # Debug print statement
         
         # Structure response data
         data = [profile_data]
+        data[0]['profile_image'] = str(profile.profile_image)
+        print("Data:", data[0]['profile_image'])  # Debug print statement
         return Response(data, status=status.HTTP_200_OK)
 
-#  SEARCH FOR USERS BY USERNAME, EMAIL  #
+#  SEARCH FOR USERS BY USERNAME  #
 class UserSearchView(APIView):
     permission_classes = [AllowAny]
     
@@ -114,7 +139,9 @@ class UserSearchView(APIView):
             ).filter(rank__gt=0.6).order_by('-rank')
             for user in results:
                 print(user.username, user.rank)
-            serializer = UserSerializer(results, many=True)
+            serializer = UserProfileRenderSerializer(results, many=True)
+            print(serializer.to_representation(results))
+            print("Data: ", serializer.data[0])
             return Response(serializer.data, status=status.HTTP_200_OK)
 
         return Response([], status=status.HTTP_200_OK)
@@ -135,3 +162,4 @@ class UserFriendsListView(APIView):
         print(response_data)
 
         return Response(response_data, status=200)
+    

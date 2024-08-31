@@ -14,6 +14,8 @@ const LogoutButton: React.FC = () => {
     const handleLogout = () => {  
         // Clear cookies
         deleteCookie('token');
+        deleteCookie('sessionid');
+        deleteCookie('csrftoken');
         // Redirect to the sign-in page
         navigate('/signin');
     }

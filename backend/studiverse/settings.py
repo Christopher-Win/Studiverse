@@ -1,5 +1,5 @@
 from pathlib import Path
-
+import os
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -34,12 +34,14 @@ INSTALLED_APPS = [
 ]
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
-        'rest_framework.authentication.TokenAuthentication',
+        #'rest_framework.authentication.TokenAuthentication', # This should use the token to authenticate the user
+        'rest_framework.authentication.SessionAuthentication', #This should use the cookie to authenticate the user
     ],
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.IsAuthenticated',
     ],
 }
+
 
 AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend',
@@ -47,7 +49,16 @@ AUTHENTICATION_BACKENDS = [
 
 # Ensure SESSION_COOKIE_SECURE and CSRF_COOKIE_SECURE are correctly set for your environment
 SESSION_COOKIE_SECURE = False  # Set to True in production with HTTPS
+SESSION_COOKIE_NAME = 'sessionid'  # Default name for session cookies
+SESSION_COOKIE_HTTPONLY = False  # Should be False so you can access it via JavaScript if needed
+
 CSRF_COOKIE_SECURE = False     # Set to True in production with HTTPS
+CSRF_COOKIE_HTTPONLY = False  # Should be False so you can access it via JavaScript if needed
+
+CSRF_TRUSTED_ORIGINS = [
+    'http://localhost:5173',  # Add this line
+    'http://localhost:8000',  # If you access the frontend from the Django server directly
+]
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
@@ -78,6 +89,7 @@ CORS_ALLOW_HEADERS = [
     'authorization',
     'x-requested-with',
     'x-csrftoken',
+    'X-CSRFToken',
 ]
 ROOT_URLCONF = "studiverse.urls"
 
@@ -150,6 +162,8 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
 STATIC_URL = "static/"
+MEDIA_URL = '/media/profile_images/' # This will be used to serve the uploaded images in the media/profile_images/ directory
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media/profile_images/') # This will store the uploaded images in the media/profile_images/ directory
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field

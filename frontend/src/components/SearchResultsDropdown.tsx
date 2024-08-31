@@ -15,6 +15,7 @@ interface SearchResultsDropdownProps {
 }
 
 const SearchResultsDropdown: React.FC<SearchResultsDropdownProps> = ({ results, onClose }) => {
+    
   return (
     <section className="search-results-dropdown">
         {results.length>0 && <h1 className='text-zinc-50 font-bold mb-4'>Profiles</h1>}
@@ -24,7 +25,7 @@ const SearchResultsDropdown: React.FC<SearchResultsDropdownProps> = ({ results, 
                 <div className="search-result-item-contents">
                     <section className="search-result-item-content-left">
                         <div className="profile-pic-box">
-                            <img src={"../../../backend/profile_images/profilepic.jpg"} alt={user.username} className="profile-img" />
+                            <img src={user.profile_image} alt={user.username} className="profile-img" />
                         </div>
                     </section>
                     <section className="search-result-item-content-right">

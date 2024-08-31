@@ -6,7 +6,7 @@ interface UserProfileData {
     first_name: string;
     last_name: string;
     bio: string;
-    profile_picture: string;
+    profile_image: string;
   }
 
 const ProfileContent: React.FC<{ userData: UserProfileData }> = ({ userData }) => {

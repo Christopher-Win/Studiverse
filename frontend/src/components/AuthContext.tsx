@@ -37,13 +37,15 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
 
     const fetchUserData = async () => {
         const token = getCookie('token');
+        console.log(`Token: ${token}`);
         if (token) {
         try {
             const response = await axios.get('http://localhost:8000/accounts/profile/', {
             headers: {
-                'Authorization': `Token ${token}`,
+                // 'Authorization': `Token ${token}`,
                 'Content-Type': 'application/json',
             },
+            withCredentials: true, // Send cookies with the request
             });
             setUserData(response.data);
         } catch (error) {
