@@ -17,32 +17,51 @@ interface UserData {
 
 const Profile: React.FC = () => {
   const { username } = useParams<{ username: string }>();
-  const [userData, setUserData] = useState<UserData | null>(null);
-  useEffect(() => {
+  const [profile, setProfile] = useState<UserData | null>(null);
+  const [viewer, setViewer] = useState<UserData | null>(null); // State to hold the current logged-in user
 
-    const fetchUserData = async () => {
+  useEffect(() => {
+    const fetchUserData = async () => { // Fetch user data based on the username from the URL
         const token = getCookie('token');
         if (token) {
         try {
             const response = await axios.get(`http://localhost:8000/${username}/`, {
-            headers: {
-                'Authorization': `Token ${token}`,
-                'Content-Type': 'application/json',
-            },
-            // withCredentials: true, // Send cookies with the request
+                headers: {
+                    'Authorization': `Token ${token}`,
+                    'Content-Type': 'application/json',
+                },
+             withCredentials: true, // Send cookies with the request
             });
-            
-            setUserData(response.data[0]);
+            setProfile(response.data[0]);
             console.log(response.data[0]);
         } catch (error) {
             console.error('Failed to fetch user data:', error);
-            setUserData(null);
+            setProfile(null);
         }
         } else {
-        setUserData(null);
+            setProfile(null);
         }
     };
-
+    const fetchCurrentUser = async () => {
+        const token = getCookie('token');
+        try{
+            const response = await axios.get(`http://localhost:8000/accounts/profile/`, {
+                headers: {
+                    'Authorization': `Token ${token}`,
+                    'Content-Type': 'application/json',
+                },
+                withCredentials: true, // Send cookies with the request
+            });
+            setViewer(response.data); // Set the current logged-in user
+            console.log(response.data);
+        }
+        catch (error) {
+            console.error('Failed to fetch user data:', error);
+            setViewer(null);
+        }
+    }
+    fetchCurrentUser();
+    console.log("Viewer: ", viewer);
     fetchUserData();
   }, [username]);
 
@@ -52,19 +71,19 @@ const Profile: React.FC = () => {
             <Sidebar />
         </div>
         <div className="profile-page-main-content">
-            {userData ? (
+            {profile ? (
             <section className="main-content-inner">
                 <main className="main-content-inner-main">
                     <div className='main-content-inner-main-inside'>
                         <header className='profile-header'>
-                            <ProfileHeader userData={userData} />
+                            {viewer && <ProfileHeader profile={profile} viewer={viewer} />} 
                         </header>
-                        <ProfileContent userData={userData} />
+                        {/* <ProfileContent userData={userData} /> */}
                     </div>
                 </main>
             </section>
             ) : (
-            <div>Loading...</div>
+                <div>Loading...</div>
             )}
         </div>
     </div>

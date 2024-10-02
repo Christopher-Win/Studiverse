@@ -2,7 +2,7 @@ import { useAuth } from '../components/AuthContext';
 import '../index.css'
 
 import React from 'react';
-import HomeHeader from '../components/HomeHeader';
+import HomeHeader from '../components/Home/HomeHeader';
 import Sidebar from '../components/Sidebar';
 import Header from '../components/Home/Main/Header';
 import CurrentSession from '../components/Home/Main/CurrentSession';

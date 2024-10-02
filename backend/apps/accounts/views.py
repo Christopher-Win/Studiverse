@@ -20,7 +20,7 @@ import json
 #   FETCH CURRENT USER PROFILE     #
 
 class UserProfileRenderView(APIView):
-    permission_classes = [AllowAny]
+    permission_classes = [IsAuthenticated]
     serializer_class = UserProfileRenderSerializer
     
     def get(self, request, *args, **kwargs):
@@ -62,8 +62,9 @@ class UploadProfileImageView(APIView):
     permission_classes = [AllowAny]
     
     def post(self,request):
-        if request.method == 'POST' and request.FILES.get('file'):
-            profile = get_object_or_404(User, username="Chris.nguy")
+        print("Incoming Data:", request.FILES.get('File'))  # Debug print statement
+        if request.method == 'POST' and request.FILES.get('file'): 
+            profile = get_object_or_404(User, username=request.user.username) # 
             profile.profile_image = request.FILES['file']
             profile.profile_image = request.build_absolute_uri(profile.profile_image.url)
             profile.save()

@@ -33,13 +33,6 @@
         display: block;
         margin-left: 72px;
     }
-}
-@media (min-width: 1200px){
-    .profile-page-main-content {
-        width: calc(100% - var(--nav-medium-width));
-        display: block;
-        margin-left: 72px;
-    }
     .main-content-inner{
         display: flex;
         flex-direction: column;
@@ -65,7 +58,6 @@
     .profile-header {
         display: grid;
         grid-template-columns: 1fr 2fr;
-        height: 400px;
         /* grid-template-areas: 
         "profile-picture"
         "profile-info"; */
@@ -125,6 +117,140 @@
             text-align: start;
             font-weight: 500;
             text-wrap: nowrap;
+        }
+        .follow-button {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        
+        .follow-button.follow {
+            background-color: #0095f6;
+            color: white;
+        }
+        
+        .follow-button.unfollow {
+            background-color: #efefef;
+            color: black;
+        }
+        
+        .follow-button:disabled {
+            background-color: #cccccc;
+            cursor: not-allowed;
+        }
+}
+@media (min-width: 1200px){
+    .profile-page-main-content {
+        width: calc(100% - var(--nav-medium-width));
+        display: block;
+        margin-left: 72px;
+    }
+    .main-content-inner{
+        display: flex;
+        flex-direction: column;
+        flex-grow: 1;
+        min-height: 100vh;
+    }
+    .main-content-inner-main{
+        display: flex;
+        flex-direction: column;
+        flex-grow: 1;
+        min-height: 90vh;
+    }
+    .main-content-inner-main-inside{
+        display:block;
+        flex-grow: 1;
+        margin-left: 43.5px;
+        margin-right: 43.5px;
+        margin-bottom: 30px;
+        padding-left: 20px;
+        padding-right: 20px;
+        padding-top: 30px;
+    }
+    .profile-header {
+        display: grid;
+        grid-template-columns: 1fr 2fr;
+        /* grid-template-areas: 
+        "profile-picture"
+        "profile-info"; */
+        margin-bottom: 20px;
+      }
+      .profile-image {
+        /* grid-area: profile-picture; */
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-right: 28px;
+        grid-column-start: 1;
+        grid-row-start: 1;
+        grid-row-end: 5;
+      }
+      .profile-image-box{
+        position: relative;
+        display: flex;
+        /* height: 150px; */
+        flex-direction: column;
+        flex-grow: 1;
+        flex-shrink: 0;
+        align-items: center;
+        justify-content: center;
+      }
+      .profile-image-box img{
+        width: 150px;
+        height: 150px;
+        border-radius: 50%;
+        object-fit: cover;
+      }
+      
+      /* profile-1 is the top row of profile information: username-buttons */
+        .profile-1{
+        display: block;
+        margin-top: auto;
+        margin-bottom: 20px;
+        grid-column-start: 2;
+        grid-row-start: 1;
+        }
+        .profile-1-box{
+        position: relative;
+        display: flex;
+        flex-direction: row;
+        flex-shrink: 1;
+        align-items: center;
+        }
+        .profile-1-username{
+            position: static;
+            align-items: stretch;
+            align-content: stretch;
+            padding-right: 20px;
+            display: flex;
+            justify-content: flex-start;
+            font-size: 22px;
+            line-height: 25px;
+            text-align: start;
+            font-weight: 500;
+            text-wrap: nowrap;
+        }
+        .follow-button {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        
+        .follow-button.follow {
+            background-color: #0095f6;
+            color: white;
+        }
+        
+        .follow-button.unfollow {
+            background-color: #efefef;
+            color: black;
+        }
+        
+        .follow-button:disabled {
+            background-color: #cccccc;
+            cursor: not-allowed;
         }
 
 }

@@ -1,14 +1,14 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { useAuth } from '../components/AuthContext';
-import LogoutButton from './LogoutButton';
-import SearchBar from './SearchBar';
+import { useAuth } from '../AuthContext';
+import LogoutButton from '../LogoutButton';
+import SearchBar from '../SearchBar';
 // import 'frontend/src/HomeHeader.css'; // Make sure to create corresponding CSS file for styling
 interface User {
     id: string;
     username: string;
     profileImage: string;
-  }
+}
 
   
 const HomeHeader: React.FC = () => {

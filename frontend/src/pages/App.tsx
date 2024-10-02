@@ -13,7 +13,7 @@ import { AuthProvider } from '../components/AuthContext';
 
 const App: React.FC = () => {
     return (
-        <AuthProvider>
+        <AuthProvider> 
             <Router>
                 <Routes>
                     <Route path="/" element={<WelcomePage />} />

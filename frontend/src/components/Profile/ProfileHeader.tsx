@@ -3,17 +3,25 @@ import React, { ReactNode, useState } from 'react';
 import './Profile.css';
 import axios from 'axios';
 import { FileRejection, useDropzone } from 'react-dropzone';
-
-interface UserProfileData {
-  username: ReactNode;
-  first_name: ReactNode;
-  last_name: ReactNode;
-    bio?: string;
-  profile_image?: string;
+import { getCookie } from '../../components/AuthContext';
+import FollowButton from './FollowButton';
+import FollowingButton from './FollowingButton';
+export interface ProfileHeaderProps {
+    profile:{
+        username: string;
+        first_name: string;
+        last_name: string;
+        bio?: string;
+        profile_image?: string;
+        isFollowing?: boolean;
+    }
+    viewer: {
+        username: string;
+    }
 }
 
-const ProfileHeader: React.FC<{ userData: UserProfileData }> = ({ userData }) => {
-    const [profileImage, setProfileImage] = useState<string>(userData.profile_image || '/path/to/default/avatar.png');
+const ProfileHeader: React.FC<ProfileHeaderProps> = ({ profile, viewer}) => {
+    const [profileImage, setProfileImage] = useState<string>(profile.profile_image || '/path/to/default/avatar.png');
     const [isUploading, setIsUploading] = useState<boolean>(false);
 
     const onDrop = (acceptedFiles: File[], rejectedFiles: FileRejection[]) => {
@@ -32,7 +40,9 @@ const ProfileHeader: React.FC<{ userData: UserProfileData }> = ({ userData }) =>
             // Upload the image to the backend
             axios.post<{ imageUrl: string }>('http://localhost:8000/uploadProfileImage/', formData, {
                 headers: {
+                    'Authorization': `Token ${getCookie('token')}`,
                     'Content-Type': 'multipart/form-data',
+                    'X-CSRFToken': getCookie('csrftoken'),
                 },
                 withCredentials: true, // Send cookies with the request
             }).then(response => {
@@ -45,12 +55,12 @@ const ProfileHeader: React.FC<{ userData: UserProfileData }> = ({ userData }) =>
             });
         }
     };
-
-    const { getRootProps, getInputProps } = useDropzone({ onDrop });
+    const isProfileOwner = profile.username === viewer.username; 
+    const { getRootProps, getInputProps } = useDropzone({ onDrop }); // This will create a dropzone area where you can drop files
 
   return (
         <>
-            <section className="profile-image" {...getRootProps()}>
+            <section className="profile-image" {...(isProfileOwner ? getRootProps() : {})}>
                 <div className="profile-image-box">
                     <input {...getInputProps()} />
                     <img 
@@ -61,17 +71,26 @@ const ProfileHeader: React.FC<{ userData: UserProfileData }> = ({ userData }) =>
                     />
                     {isUploading && <p>Uploading...</p>}
                 </div>
+                
             </section>
             <section className="profile-1">
                 <div>
                     <div className="profile-1-box">
                         <div className="profile-1-username">
-                            {userData.username}
+                            {profile.username}
                         </div>
+                        {!isProfileOwner &&
+                            (profile.isFollowing ? 
+                                <FollowingButton user={viewer.username} targetUser={profile.username} following={true}/> 
+                            :   <div className="profile-follow-button">
+                                    <FollowButton user={viewer.username} following={false} targetUser={profile.username} />
+                                </div>
+                            )
+                        }
                     </div>
                 </div>
             </section>
-        <h1>{userData.first_name} {userData.last_name}</h1>
+        <h1>{profile.first_name} {profile.last_name}</h1>
         {/* <p>{userData.bio}</p> */}
         </>
   );
