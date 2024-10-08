@@ -37,7 +37,7 @@ const FollowingButton: React.FC<FollowingButtonProps> = ({ user, targetUser, fol
     };
 
     return (
-        <button className={`following-button ${isFollowing ? 'unfollow' : 'follow'}`} onClick={handleUnfollow}>
+        <button className={`follow-button ${isFollowing ? 'unfollow' : 'follow'}`} onClick={handleUnfollow}>
             {isFollowing ? 'Following' : 'Follow'}
         </button>
     );

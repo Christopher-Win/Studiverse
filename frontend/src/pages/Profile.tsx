@@ -7,11 +7,12 @@ import { useParams } from 'react-router-dom';
 import {getCookie} from '../components/AuthContext';
 
 interface UserData {
-  username: string;
-  first_name: string;
-  last_name: string;
-  bio?: string;
-  profile_image?: string;
+    username: string;
+    first_name: string;
+    last_name: string;
+    bio?: string;
+    profile_image?: string;
+    follow_status?: string;
   // Add other fields as necessary
 }
 

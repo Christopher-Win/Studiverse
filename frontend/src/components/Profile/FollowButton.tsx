@@ -7,13 +7,14 @@ import { getCookie } from '../../components/AuthContext';
 interface FollowButtonProps {
     user: string;
     targetUser: string;
-    following: boolean;
+    follow_status: string;
+    getFollowStatus: (followStatus: string) => void;
 }
 
-const FollowButton: React.FC<FollowButtonProps> = ({ user, targetUser, following }) => {
-    const [isFollowing, setIsFollowing] = useState(following);
+const FollowButton: React.FC<FollowButtonProps> = ({ user, targetUser, getFollowStatus, follow_status }) => {
     const [currentUser, setCurrentUser] = useState(user);
     const [currentTargetUser, setCurrentTargetUser] = useState(targetUser);
+    const [followStatus, setFollowStatus] = useState(follow_status);
 
     const handleFollow = async () => {
         const csrftoken = getCookie('csrftoken');
@@ -21,10 +22,9 @@ const FollowButton: React.FC<FollowButtonProps> = ({ user, targetUser, following
         if(csrftoken){
             console.log("csrftoken is present");
             try {
-                if (isFollowing) {
+                if (follow_status === 'following') {
                     // Unfollow logic
                     await axios.post('/api/unfollow');
-                    setIsFollowing(false);
                 } else {
                     // Follow logic
                     const response = await axios.post(`http://localhost:8000/${targetUser}/add`,{}, {
@@ -35,7 +35,7 @@ const FollowButton: React.FC<FollowButtonProps> = ({ user, targetUser, following
                         withCredentials: true, // Send cookies with the request
                         });
                     console.log(response.data);
-                    setIsFollowing(true);
+                    getFollowStatus("pending");
                 }
             } catch (error) {
                 console.error('Error following/unfollowing user:', error);
@@ -44,8 +44,8 @@ const FollowButton: React.FC<FollowButtonProps> = ({ user, targetUser, following
     };
 
     return (
-        <button className={`follow-button ${isFollowing ? 'unfollow' : 'follow'}`} onClick={handleFollow}>
-            {isFollowing ? 'Following' : 'Follow'}
+        <button className={`follow-button follow`} onClick={handleFollow}>
+            Follow
         </button>
     );
 };

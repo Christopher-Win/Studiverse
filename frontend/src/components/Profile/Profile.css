@@ -134,7 +134,10 @@
             background-color: #efefef;
             color: black;
         }
-        
+        .follow-button.pending{
+            background-color: #9a9a9a;
+            color: black;
+        }
         .follow-button:disabled {
             background-color: #cccccc;
             cursor: not-allowed;
@@ -247,7 +250,10 @@
             background-color: #efefef;
             color: black;
         }
-        
+        .follow-button.pending{
+            background-color: #9a9a9a;
+            color: black;
+        }
         .follow-button:disabled {
             background-color: #cccccc;
             cursor: not-allowed;

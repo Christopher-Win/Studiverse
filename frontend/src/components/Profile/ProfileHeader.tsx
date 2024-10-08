@@ -6,6 +6,8 @@ import { FileRejection, useDropzone } from 'react-dropzone';
 import { getCookie } from '../../components/AuthContext';
 import FollowButton from './FollowButton';
 import FollowingButton from './FollowingButton';
+import PendingButton from './PendingButton';
+
 export interface ProfileHeaderProps {
     profile:{
         username: string;
@@ -13,7 +15,7 @@ export interface ProfileHeaderProps {
         last_name: string;
         bio?: string;
         profile_image?: string;
-        isFollowing?: boolean;
+        follow_status?: string;
     }
     viewer: {
         username: string;
@@ -23,7 +25,12 @@ export interface ProfileHeaderProps {
 const ProfileHeader: React.FC<ProfileHeaderProps> = ({ profile, viewer}) => {
     const [profileImage, setProfileImage] = useState<string>(profile.profile_image || '/path/to/default/avatar.png');
     const [isUploading, setIsUploading] = useState<boolean>(false);
-
+    const [followStatus, setFollowStatus] = useState<string>(profile.follow_status || 'not_following');
+    
+    const getFollowStatus = (followStatus: string) => {
+        setFollowStatus(followStatus);
+        console.log("Setting Follow Status to: ", followStatus);
+    }
     const onDrop = (acceptedFiles: File[], rejectedFiles: FileRejection[]) => {
         const file = acceptedFiles[0];
         if (file) {
@@ -79,14 +86,28 @@ const ProfileHeader: React.FC<ProfileHeaderProps> = ({ profile, viewer}) => {
                         <div className="profile-1-username">
                             {profile.username}
                         </div>
-                        {!isProfileOwner &&
-                            (profile.isFollowing ? 
-                                <FollowingButton user={viewer.username} targetUser={profile.username} following={true}/> 
-                            :   <div className="profile-follow-button">
-                                    <FollowButton user={viewer.username} following={false} targetUser={profile.username} />
+                        {!isProfileOwner && (
+                            <>
+                                {followStatus === 'following' && (
+                                <FollowingButton
+                                    user={viewer.username}
+                                    targetUser={profile.username}
+                                    following={true}
+                                />
+                                )}
+                                {followStatus === 'pending' && <PendingButton />}
+                                {followStatus === 'not_following' && (
+                                <div className="profile-follow-button">
+                                    <FollowButton
+                                    user={viewer.username}
+                                    getFollowStatus={getFollowStatus}
+                                    follow_status={followStatus}
+                                    targetUser={profile.username}
+                                    />
                                 </div>
-                            )
-                        }
+                                )}
+                            </>
+                        )}
                     </div>
                 </div>
             </section>

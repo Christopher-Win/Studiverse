@@ -3,6 +3,8 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from .serializers import *
 from .models import User
+from ..inbox.models import FriendRequest
+
 from django.contrib.auth import login
 from rest_framework.authtoken.models import Token
 from rest_framework.permissions import IsAuthenticated, AllowAny
@@ -113,11 +115,26 @@ class UserProfileView(APIView):
         # print(profile_data['profile_image'])  # Debug print statement
         print("Data requested by:", request.user.username)  # Debug print statement
         print("User's Cookies:", request.COOKIES)  # Debug print statement
+         # Determine followStatus
+        follow_status = 'not_following'
+        viewer = request.user
+        friend_requests = FriendRequest.objects.filter(from_user=viewer) # Get all friend requests sent by the viewer
+        if viewer.is_authenticated and viewer != profile:
+            # Check if the viewer is already following the profile user
+            if viewer.friends.filter(username=profile.username).exists():
+                follow_status = 'following'
+            # Check if there's a pending follow request from the viewer to the profile user
+            elif friend_requests.filter(to_user=profile).exists(): 
+                follow_status = 'pending'
         
+        # If the viewer is the profile owner, no follow button/status needed
+        elif viewer == profile:
+            follow_status = None
         # Structure response data
         data = [profile_data]
+        data[0]['follow_status'] = follow_status # Add the follow status to the response data
         data[0]['profile_image'] = str(profile.profile_image)
-        print("Data:", data[0]['profile_image'])  # Debug print statement
+        # print("Data:", data[0]['profile_image'])  # Debug print statement
         return Response(data, status=status.HTTP_200_OK)
 
 #  SEARCH FOR USERS BY USERNAME  #
