@@ -332,12 +332,12 @@
     .sidebar {
         grid-area: sidebar;
         width: var(--nav-narrow-width);
-        background-color: #1e1e1e;
+        background-color: #000000;
         display: flex;
     }
     .sidebar-inner {
         width: var(--nav-narrow-width);
-        background-color: #1e1e1e;
+        background-color: #000000;
         display: flex;
         flex-direction: column;
         flex-grow: 1;
@@ -365,6 +365,16 @@
         flex-grow: 1;
         padding: 10px;
       }
+    .sidebar-item-inner{
+        display: inline-flex;
+        box-sizing: border-box;
+        align-items: center;
+        flex-direction: row;
+        width: 100%;
+        margin-top: 4px;
+        margin-bottom: 4px;
+        padding: 12px;
+    }
     .item-label{
         display: flex;
         align-items: center;
@@ -377,7 +387,27 @@
         display: block;
         font-size: 16px;
     }
-  }
+    /* When a sidebar item is selected ie. the side panel is open */
+    .sidebar.selected{
+        grid-area: sidebar;
+        width: var(--nav-narrow-width);
+        background-color: #000000;
+        display: flex;
+    }
+    
+    .sidebar-inner.selected {
+        width: var(--nav-narrow-width);
+        background-color: #000000;
+        display: flex;
+        flex-direction: column;
+        flex-grow: 1;
+        padding: 10px;
+    }
+    .sidebar-inner.selected span{
+        display: none;
+    }
+      
+}
 
 .sidebar-menu {
     display: block;
@@ -392,17 +422,11 @@
     display: block;
     /* padding-bottom: 10px; */
   }
-  
-  .sidebar-item-inner{
-    display: inline-flex;
-    box-sizing: border-box;
-    align-items: center;
-    flex-direction: row;
-    width: 100%;
-    margin-top: 4px;
-    margin-bottom: 4px;
-    padding: 12px;
+  .sidebar-item.selected{
+    border-width: 1px;
+    border-radius: 8px;
   }
+  
 
   .item-icon{
     position: relative;
@@ -414,7 +438,17 @@
     max-width: 24px;
   }
   
- 
+  .sidebar-item-inner{
+    display: inline-flex;
+    box-sizing: border-box;
+    align-items: center;
+    flex-direction: row;
+    width: 100%;
+    margin-top: 4px;
+    margin-bottom: 4px;
+    padding: 12px;
+}
+
   .sidebar-item-link {
     color: #fff;
     display: inline;

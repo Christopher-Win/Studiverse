@@ -3,7 +3,7 @@ import React, { ReactNode, useState } from 'react';
 import './Profile.css';
 import axios from 'axios';
 import { FileRejection, useDropzone } from 'react-dropzone';
-import { getCookie } from '../../components/AuthContext';
+import { getCookie } from '../Context/AuthContext';
 import FollowButton from './FollowButton';
 import FollowingButton from './FollowingButton';
 import PendingButton from './PendingButton';

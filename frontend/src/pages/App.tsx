@@ -7,13 +7,15 @@ import SignInPage from './SignInPage';
 import Home from './Home';
 import Profile from './Profile';
 import ProtectedRoute from '../components/ProtectedRoute';
-import { AuthProvider } from '../components/AuthContext';
+import { AuthProvider } from '../components/Context/AuthContext';
+import { SidebarProvider } from '../components/Context/SidebarContext'; // Adjust path as needed
 
 // App component
 
 const App: React.FC = () => {
     return (
         <AuthProvider> 
+            <SidebarProvider>
             <Router>
                 <Routes>
                     <Route path="/" element={<WelcomePage />} />
@@ -22,12 +24,12 @@ const App: React.FC = () => {
                     <Route path="/:username" element={<Profile/>} />
                     <Route element={<ProtectedRoute />}>
                         <Route path="/home" element={<Home />} />
-                        
                         <Route path="/:username" element={<Profile/>} />
-                        {/* Add more protected routes here */}
+                            {/* Add more protected routes here */}
                     </Route>
                 </Routes>
             </Router>
+            </SidebarProvider>
         </AuthProvider>
     );
 };

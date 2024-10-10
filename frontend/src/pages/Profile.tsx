@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import Sidebar from '../components/Sidebar'; // Assuming Sidebar is a reusable component
+import { useSidebar } from '../components/Context/SidebarContext';
+
 import ProfileHeader from '../components/Profile/ProfileHeader'; // New component for the profile header
 import ProfileContent from '../components/Profile/ProfileContent'; // New component for profile-specific content
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
-import {getCookie} from '../components/AuthContext';
+import {getCookie} from '../components/Context/AuthContext';
 
 interface UserData {
     username: string;
@@ -20,6 +22,7 @@ const Profile: React.FC = () => {
   const { username } = useParams<{ username: string }>();
   const [profile, setProfile] = useState<UserData | null>(null);
   const [viewer, setViewer] = useState<UserData | null>(null); // State to hold the current logged-in user
+  const { sidebarOpen, toggleSidebar } = useSidebar();
 
   useEffect(() => {
     const fetchUserData = async () => { // Fetch user data based on the username from the URL
@@ -69,7 +72,7 @@ const Profile: React.FC = () => {
   return (
     <div className="profile-page-container">
         <div className="sidebar">
-            <Sidebar />
+            <Sidebar toggleSidebar={toggleSidebar} />
         </div>
         <div className="profile-page-main-content">
             {profile ? (

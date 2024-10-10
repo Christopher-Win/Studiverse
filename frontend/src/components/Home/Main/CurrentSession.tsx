@@ -1,6 +1,6 @@
 import React from 'react'
 import '../../../index.css'
-import { useAuth } from '../../AuthContext';
+import { useAuth } from '../../Context/AuthContext';
 
 const CurrentSession:React.FC = () => {
     const { userData } = useAuth();

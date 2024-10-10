@@ -31,6 +31,7 @@ class CreateFriendRequestView(generics.CreateAPIView): # We will use this view t
         friend_request = serializer.save() # This will trigger the create method in the FriendRequestSerializer class
         return Response(FriendRequestSerializer(friend_request).data, status=status.HTTP_201_CREATED)
 
+# This view will return a list of all pending friend requests GET /inbox/friendships/pending/
 class PendingFriendRequestsView(APIView):
     permission_classes = [IsAuthenticated]
 
@@ -39,7 +40,8 @@ class PendingFriendRequestsView(APIView):
         pending_requests = FriendRequest.objects.filter(to_user=user)
         serializer = FriendRequestSerializer(pending_requests, many=True)
         return Response(serializer.data, status=200)
-    
+
+# This view will be used to approve a friend request POST /inbox/friendships/<str:netID>/approve/
 class ApproveFriendRequestView(APIView): # We will use this view to confirm a friend request
     permission_classes = [IsAuthenticated]
 

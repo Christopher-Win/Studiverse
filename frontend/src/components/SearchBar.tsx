@@ -1,6 +1,6 @@
 import React, { ReactNode, useState } from 'react';
 import axios from 'axios';
-import { useAuth } from '../components/AuthContext';
+import { useAuth } from './Context/AuthContext';
 import SearchResultsDropdown from './SearchResultsDropdown';
 
 import './SearchBar.css'; // Optional, for styling

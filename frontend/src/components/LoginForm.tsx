@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import InputField from './InputField'; // Reusing the InputField component
 import {loginUser} from '../services/LoginService'; // Import the loginUser function from the LoginService
 import { useNavigate } from 'react-router-dom';
-import { useAuth } from './AuthContext';
+import { useAuth } from './Context/AuthContext';
 
 
 interface UserData {

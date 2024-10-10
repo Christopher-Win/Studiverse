@@ -1,0 +1,45 @@
+/* FollowRequestsPanel.css */
+
+.follow-requests-panel {
+    position: absolute; /* Absolute positioning for control within parent */
+    top: 0; /* Align to the top */
+    left: 73px; /* Position according to your layout */
+    height: 958px; /* Set height as seen in the screenshot */
+    width: 397px; /* Set width as seen in the screenshot */
+    background-color: #1c1e21; /* Background color */
+    color: #f5f5f5; /* Text color */
+    border: 1px solid rgba(170, 170, 170, 0.2); /* Border similar to screenshot */
+    box-shadow: -2px 0 5px rgba(0, 0, 0, 0.5); /* Subtle shadow for depth */
+    z-index: 1000; /* Ensure it's above other elements */
+    transform: translateX(100%); /* Slide out of view by default */
+    transition: transform 0.3s ease-in-out;
+    padding: 10px;
+  }
+  
+  .follow-requests-panel.open {
+    transform: translateX(0);
+  }
+  
+  .follow-requests-panel.closed {
+    transform: translateX(100%);
+  }
+  
+  .panel-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+  
+  .panel-content {
+    flex-grow: 1;
+    overflow-y: auto;
+  }
+  
+  .close-button {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 20px;
+    cursor: pointer;
+  }

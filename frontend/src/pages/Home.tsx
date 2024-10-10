@@ -1,9 +1,10 @@
-import { useAuth } from '../components/AuthContext';
+import { useAuth } from '../components/Context/AuthContext';
 import '../index.css'
 
-import React from 'react';
+import React, { useState } from 'react';
 import HomeHeader from '../components/Home/HomeHeader';
 import Sidebar from '../components/Sidebar';
+import { useSidebar } from '../components/Context/SidebarContext';
 import Header from '../components/Home/Main/Header';
 import CurrentSession from '../components/Home/Main/CurrentSession';
 import ActiveFriends from '../components/Home/Main/ActiveFriends';
@@ -16,6 +17,13 @@ import ActiveFriends from '../components/Home/Main/ActiveFriends';
 // import NewSessionButton from '../components/NewSessionButton';
 
 const Home: React.FC = () => {
+    // const [sidebarOpen, setSidebarOpen] = useState(false);
+    const { sidebarOpen, toggleSidebar } = useSidebar();
+
+    // const toggleSidebar = () => {   
+    //     setSidebarOpen(!sidebarOpen);
+    // }
+
   return (
     <div className="home-container">
       {/* Header Component */}
@@ -24,8 +32,8 @@ const Home: React.FC = () => {
         </header>
 
         {/* Sidebar Component */}
-        <aside className='sidebar'>
-            <Sidebar />
+        <aside className={`sidebar ${sidebarOpen ? 'selected':''}`}>
+            <Sidebar toggleSidebar={toggleSidebar}/>
         </aside>
         
 
