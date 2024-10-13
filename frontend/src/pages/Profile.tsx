@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import Sidebar from '../components/Sidebar'; // Assuming Sidebar is a reusable component
-import { useSidebar } from '../components/Context/SidebarContext';
+import { useSidebar } from '../Context/SidebarContext';
 
 import ProfileHeader from '../components/Profile/ProfileHeader'; // New component for the profile header
 import ProfileContent from '../components/Profile/ProfileContent'; // New component for profile-specific content
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
-import {getCookie} from '../components/Context/AuthContext';
+import {getCookie} from '../Context/AuthContext';
 
 interface UserData {
     username: string;

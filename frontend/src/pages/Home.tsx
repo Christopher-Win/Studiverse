@@ -1,10 +1,10 @@
-import { useAuth } from '../components/Context/AuthContext';
+import { useAuth } from '../Context/AuthContext';
 import '../index.css'
 
 import React, { useState } from 'react';
 import HomeHeader from '../components/Home/HomeHeader';
 import Sidebar from '../components/Sidebar';
-import { useSidebar } from '../components/Context/SidebarContext';
+import { useSidebar } from '../Context/SidebarContext';
 import Header from '../components/Home/Main/Header';
 import CurrentSession from '../components/Home/Main/CurrentSession';
 import ActiveFriends from '../components/Home/Main/ActiveFriends';

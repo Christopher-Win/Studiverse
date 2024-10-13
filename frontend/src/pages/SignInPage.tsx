@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import LoginHeader from '../components/LoginHeader';
 import LoginForm from '../components/LoginForm';
 import '../Login.css'; // External CSS for styling
-import { getCookie } from '../components/Context/AuthContext';
+import { getCookie } from '../Context/AuthContext';
 const Login: React.FC = () => {
     const navigate = useNavigate();
 

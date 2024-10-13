@@ -1,6 +1,6 @@
 import React from 'react'
 import '../../../index.css'
-import { useAuth } from '../../Context/AuthContext';
+import { useAuth } from '../../../Context/AuthContext';
 
 const ActiveFriends: React.FC = () => {
     const { userData } = useAuth();

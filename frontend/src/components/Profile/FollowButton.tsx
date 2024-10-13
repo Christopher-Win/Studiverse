@@ -1,8 +1,8 @@
 import React, {ReactNode, useState } from 'react';
 import axios from 'axios';
 import './Profile.css';
-import { useAuth } from '../Context/AuthContext';
-import { getCookie } from '../Context/AuthContext';
+import { useAuth } from '../../Context/AuthContext';
+import { getCookie } from '../../Context/AuthContext';
 
 interface FollowButtonProps {
     user: string;

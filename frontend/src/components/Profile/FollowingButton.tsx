@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import './Profile.css';
-import { getCookie } from '../Context/AuthContext';
+import { getCookie } from '../../Context/AuthContext';
 axios.defaults.withCredentials = true;
 
 interface FollowingButtonProps {

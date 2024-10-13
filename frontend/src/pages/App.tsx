@@ -7,15 +7,15 @@ import SignInPage from './SignInPage';
 import Home from './Home';
 import Profile from './Profile';
 import ProtectedRoute from '../components/ProtectedRoute';
-import { AuthProvider } from '../components/Context/AuthContext';
-import { SidebarProvider } from '../components/Context/SidebarContext'; // Adjust path as needed
+import { AuthProvider } from '../Context/AuthContext';
+import { SidebarProvider } from '../Context/SidebarContext'; // Adjust path as needed
 
 // App component
 
 const App: React.FC = () => {
     return (
         <AuthProvider> 
-            <SidebarProvider>
+            <SidebarProvider> {/* Wrap the SidebarProvider around the Router to give context on the sidepanel state */}
             <Router>
                 <Routes>
                     <Route path="/" element={<WelcomePage />} />

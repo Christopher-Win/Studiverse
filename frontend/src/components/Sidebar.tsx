@@ -3,7 +3,7 @@ import '../index.css'
 import '@fortawesome/fontawesome-free/css/all.min.css';
 import { Link } from 'react-router-dom';
 import FollowRequestsPanel from './Sidebar/FollowRequestsPanel';
-import { useSidebar } from './Context/SidebarContext'; // Adjust the import path as needed
+import { useSidebar } from '../Context/SidebarContext'; // Adjust the import path as needed
 
 interface SidebarProps {
     toggleSidebar: () => void;
