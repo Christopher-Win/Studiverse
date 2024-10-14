@@ -45,8 +45,7 @@ class PendingFriendRequestsView(APIView):
             [friend_request.from_user for friend_request in pending_requests], 
             many=True
         )
-        response = {'users': serialized_users.data}
-       
+        response = serialized_users.data
         return Response(response, status=200)
 
 # This view will be used to approve a friend request POST /inbox/friendships/<str:netID>/approve/

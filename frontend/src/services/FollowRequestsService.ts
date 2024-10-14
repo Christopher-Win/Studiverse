@@ -12,7 +12,8 @@ export const fetchPendingFriendRequests = async () => {
             },
             withCredentials: true, // Send cookies with the request
         });
-        return response.data;
+        console.log(response.data);
+        return response;
     } catch (error: any) {
         // Handle the error appropriately
         const messages = Object.entries(error.response.data).map(([key, messages]) => `${(messages as string[]).join(', ')}`)
