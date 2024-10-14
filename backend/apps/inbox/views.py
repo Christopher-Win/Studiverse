@@ -5,6 +5,7 @@ from rest_framework.response import Response
 from django.shortcuts import get_object_or_404
 from apps.accounts.models import User
 from apps.session.models import Session
+from apps.accounts.serializers import UserProfileRenderSerializer
 from .models import FriendRequest, SessionInvitation
 from .serializers import FriendRequestSerializer, SessionInvitationSerializer
 from apps.session.serializers import *
@@ -38,8 +39,15 @@ class PendingFriendRequestsView(APIView):
     def get(self, request, *args, **kwargs):
         user = request.user
         pending_requests = FriendRequest.objects.filter(to_user=user)
+        print ("Pending Requests: ",pending_requests)
         serializer = FriendRequestSerializer(pending_requests, many=True)
-        return Response(serializer.data, status=200)
+        serialized_users = UserProfileRenderSerializer(
+            [friend_request.from_user for friend_request in pending_requests], 
+            many=True
+        )
+        response = {'users': serialized_users.data}
+       
+        return Response(response, status=200)
 
 # This view will be used to approve a friend request POST /inbox/friendships/<str:netID>/approve/
 class ApproveFriendRequestView(APIView): # We will use this view to confirm a friend request
