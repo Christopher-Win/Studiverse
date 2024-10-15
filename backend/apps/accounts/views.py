@@ -168,8 +168,10 @@ class UserFriendsListView(APIView):
     permission_classes = [IsAuthenticated]
 
     def get(self, request, *args, **kwargs):
-        user = request.user
-        friends = user.friends.all()
+        profileNetID = kwargs.get('netID')
+        profile = get_object_or_404(User, netID=profileNetID)
+        
+        friends = profile.friends.all()
         friends_data = UserSerializer(friends, many=True).data
         # Structure the response similarly to Instagram
         response_data = {

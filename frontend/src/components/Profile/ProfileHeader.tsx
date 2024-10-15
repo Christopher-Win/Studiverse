@@ -7,10 +7,11 @@ import { getCookie } from '../../Context/AuthContext';
 import FollowButton from './FollowButton';
 import FollowingButton from './FollowingButton';
 import PendingButton from './PendingButton';
-
+import FollowerCount from './FollowerCount';
 export interface ProfileHeaderProps {
     profile:{
         username: string;
+        netID: string;
         first_name: string;
         last_name: string;
         bio?: string;
@@ -19,6 +20,7 @@ export interface ProfileHeaderProps {
     }
     viewer: {
         username: string;
+        netID: string;
     }
 }
 
@@ -111,7 +113,21 @@ const ProfileHeader: React.FC<ProfileHeaderProps> = ({ profile, viewer}) => {
                     </div>
                 </div>
             </section>
-        <h1>{profile.first_name} {profile.last_name}</h1>
+            <section>
+                <ul>
+                    <li>
+                        <h1>{profile.first_name} {profile.last_name}</h1>
+                    </li>
+                    <li>
+                        <div>
+                            <FollowerCount user={viewer} targetUser={profile}/>
+                        </div>
+                    </li>
+                </ul>
+                
+                
+            </section>
+
         {/* <p>{userData.bio}</p> */}
         </>
   );

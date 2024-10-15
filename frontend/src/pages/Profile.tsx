@@ -10,6 +10,7 @@ import {getCookie} from '../Context/AuthContext';
 
 interface UserData {
     username: string;
+    netID: string;
     first_name: string;
     last_name: string;
     bio?: string;
@@ -25,7 +26,7 @@ const Profile: React.FC = () => {
   const { sidebarOpen, toggleSidebar } = useSidebar();
 
   useEffect(() => {
-    const fetchUserData = async () => { // Fetch user data based on the username from the URL
+    const fetchUserData = async () => { // Fetch user data based on the username from the URL // THIS SHOULD BE A SERPATE SERVICE!!!!!
         const token = getCookie('token');
         if (token) {
         try {
