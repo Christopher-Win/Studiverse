@@ -115,7 +115,7 @@
 
 }
 .follow-request-actions.decline{
-    background-color: rgb(255, 59, 48); /* Red background */
+    background-color: rgb(68, 68, 68); /* Red background */
     color: rgb(255, 255, 255); /* White text */
     border-radius: 5px; /* Rounded corners */
     padding: 5px 10px; /* Padding inside the button */
