@@ -28,12 +28,22 @@ const FollowRequestsList: React.FC<FollowRequestsListProps> = ({ results, onClos
                                 <img src={user.profile_image} alt={user.username} className="profile-img" />
                             </div>
                         </section>
-                        <section className="search-result-item-content-right">
-                            <div className="search-result-item-content-right-inner">
-                                <span className="user-username">{user.username}</span>
-                                <span className="user-social-context">{user.first_name} {user.last_name}</span>
-                            </div>
-                        </section>
+                        
+                        <div className="follow-request-names">
+                                <a href={`/${user.username}`} className='follow-request-username'>
+                                    <span>{user.username}</span>
+                                </a>
+                                <div className='follow-request-fullname'>
+                                    <span>{`${user.first_name} ${user.last_name}`}</span>
+                                </div>
+                               
+                        </div>
+                        
+                        <div className="follow-request-actions">
+                                <button className="follow-request-actions accept">Accept</button>
+                                <button className="follow-request-actions decline">Decline</button>
+                        </div>
+                        
 
                     </div>
                 </a>
