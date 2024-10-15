@@ -1,6 +1,6 @@
 import React,{useState, useEffect, ReactNode} from 'react';
-import { fetchPendingFriendRequests } from '../../services/FollowRequestsService' // Adjust the import path as needed
-import { fetchUserData } from '../../services/ProfileRenderService'; // Adjust the import path as needed
+import { fetchPendingFriendRequests } from '../../../services/FollowRequestsService' // Adjust the import path as needed
+import { fetchUserData } from '../../../services/ProfileRenderService'; // Adjust the import path as needed
 import FollowRequestsList from './FollowRequestsList'; // Adjust the import path as needed
 import './FollowRequestsPanel.css'; // Separate CSS file for the panel
 
@@ -27,7 +27,19 @@ const FollowRequestsPanel: React.FC<FollowRequestsPanelProps> = ({ isOpen, toggl
     const [followRequests, setFollowRequests] = useState<User[]>([]);
     // const [users, setUsers] = useState<User[]>([]);
     const [loading, setLoading] = useState(true);
-
+    const loadFollowRequests = async () => {
+        try {
+            const response = await fetchPendingFriendRequests(); // Sets data to array of user dictionaries
+            // const users = data.users
+            setFollowRequests(response.data);
+            console.log(response.data);
+        } catch (error) {
+            console.error('Error loading follow requests', error);
+        } finally {
+            setLoading(false);
+        }
+       
+    };
     useEffect(() => {
         const loadFollowRequests = async () => {
             try {
@@ -57,7 +69,8 @@ const FollowRequestsPanel: React.FC<FollowRequestsPanelProps> = ({ isOpen, toggl
             <div className='w-12'></div>
         </div>
         <div>
-            <FollowRequestsList results={followRequests} />
+            { followRequests.length === 0 && !loading && <div className='no-results'>No follow requests</div> }
+            <FollowRequestsList results={followRequests} onAction={loadFollowRequests}/>
         </div>
     </div>
   );

@@ -3,7 +3,7 @@ import '../index.css'
 
 import React, { useState } from 'react';
 import HomeHeader from '../components/Home/HomeHeader';
-import Sidebar from '../components/Sidebar';
+import Sidebar from '../components/Sidebar/Sidebar';
 import { useSidebar } from '../Context/SidebarContext';
 import Header from '../components/Home/Main/Header';
 import CurrentSession from '../components/Home/Main/CurrentSession';

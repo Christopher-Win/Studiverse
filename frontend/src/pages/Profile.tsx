@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import Sidebar from '../components/Sidebar'; // Assuming Sidebar is a reusable component
+import Sidebar from '../components/Sidebar/Sidebar'; // Assuming Sidebar is a reusable component
 import { useSidebar } from '../Context/SidebarContext';
 
 import ProfileHeader from '../components/Profile/ProfileHeader'; // New component for the profile header
