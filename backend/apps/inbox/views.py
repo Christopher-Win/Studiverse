@@ -67,7 +67,18 @@ class ApproveFriendRequestView(APIView): # We will use this view to confirm a fr
             print(f"{user.username} added {friend_fullname} as a friend.")  # Debug print statement
             return Response({'status': friend_fullname + " has been added to " + user.username}, status=200)
         return Response({'status': 'cannot add yourself as a friend'}, status=400)
+# This view will be used to decline a friend request POST /inbox/friendships/<str:netID>/decline/
+class DeclineFriendRequestView(APIView):
+    permission_classes = [IsAuthenticated]
 
+    def post(self, request, *args, **kwargs):
+        user = request.user  # The currently logged-in user
+        sender_netID = kwargs.get('netID')  # The netID of the user whose friend request is to be declined
+        friend_request = get_object_or_404(FriendRequest, from_user=sender_netID, to_user=user.netID)  # The friend request to be declined
+        friend_request.delete()
+        print(f"{user.username} declined friend request from {sender_netID}.")  # Debug print statement
+        return Response({'status': f"Friend request from {sender_netID} has been declined."}, status=200)
+    
 #### THIS SHOULD BE IN accounts/views.py ####
 class RemoveFriendView(APIView):
     permission_classes = [IsAuthenticated]

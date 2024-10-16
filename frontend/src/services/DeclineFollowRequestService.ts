@@ -3,12 +3,12 @@ import { getCookie } from "./CookieService";
 
 // const base_url = process.env.REACT_APP_API_BASE_URL;
 
-export const confirmPendingFriendRequest = async (netID:string) => {
+export const DeclinePendingFriendRequest = async (netID:string) => {
     const token = getCookie('token');
     const csrftoken = getCookie('csrftoken');
     if(csrftoken){
         try {
-            const response = await axios.post(`http://localhost:8000/inbox/friendships/${netID}/approve/`,{}, {
+            const response = await axios.post(`http://localhost:8000/inbox/friendships/${netID}/decline/`,{}, {
                 headers: {
                     'X-CSRFToken': csrftoken,
                     'Content-Type': 'application/json',

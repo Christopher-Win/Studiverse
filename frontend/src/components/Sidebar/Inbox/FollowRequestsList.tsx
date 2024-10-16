@@ -1,6 +1,7 @@
 import React, { ReactNode } from 'react';
 import './FollowRequestsList.css';
 import ConfirmButton from './ConfirmButton';
+import DeclineButton from './DeclineButton';
 interface User {
   last_name: ReactNode;
   first_name: ReactNode;
@@ -40,10 +41,8 @@ const FollowRequestsList: React.FC<FollowRequestsListProps> = ({ results, onActi
                         </div>
                         
                         <div className="follow-request-actions">
-                                {/* <button className="follow-request-actions accept">Accept</button>  */}
-                                <ConfirmButton targetUserNetID={user.netID} onConfirm={onAction}/> {/* </ConfirmButton.tsx> */}
-                                
-                                <button className="follow-request-actions decline">Decline</button>{/* </DeleteButton.tsx> */}
+                            <ConfirmButton targetUserNetID={user.netID} onConfirm={onAction}/> {/* </ConfirmButton.tsx> */}
+                            <DeclineButton targetUserNetID={user.netID} onDecline={onAction}/> {/* </DeclineButton.tsx> */}
                         </div>
                         
 

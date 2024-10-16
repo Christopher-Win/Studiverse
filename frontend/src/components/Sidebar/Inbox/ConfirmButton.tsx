@@ -1,10 +1,7 @@
 import React, {ReactNode, useState } from 'react';
 import axios from 'axios';
 // import '../../../Profile/Profile.css';
-import { useAuth } from '../../../Context/AuthContext';
-import { getCookie } from '../../../Context/AuthContext';
-import { confirmPendingFriendRequests } from '../../../services/ConfirmFollowRequestService';
-import { on } from 'events';
+import { confirmPendingFriendRequest } from '../../../services/ConfirmFollowRequestService';
 
 interface ConfirmButtonProps {
     targetUserNetID: string;
@@ -18,7 +15,7 @@ const ConfirmButton: React.FC<ConfirmButtonProps> = ({ targetUserNetID, onConfir
     // const [followStatus, setFollowStatus] = useState(follow_status);
 
     const handleConfirm = async () => {
-        const response = await confirmPendingFriendRequests(targetUserNetID);
+        const response = await confirmPendingFriendRequest(targetUserNetID);
         onConfirm();
         console.log(response);
     };
