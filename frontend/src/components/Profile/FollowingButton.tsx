@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import './Profile.css';
 import { getCookie } from '../../Context/AuthContext';
+import { RemoveFriend } from '../../services/RemoveFriendService';
 axios.defaults.withCredentials = true;
 
 interface FollowingButtonProps {
@@ -19,18 +20,10 @@ const FollowingButton: React.FC<FollowingButtonProps> = ({ user, targetUser, fol
         try {
             if (isFollowing) {
                 // Unfollow logic
-                const response = await axios.post(`http://127.0.0.1:8000/${targetUser}/remove`, {
-                    withCredentials: true, // Send cookies with the request
-
-                    headers: {
-                        'Authorization': `Token ${getCookie('sessionid')}`,
-                        'Content-Type': 'application/json',
-                        'X-CSRFToken': getCookie('csrftoken'),
-                    },
-                });
-                console.log(response.data);
+                const response = await RemoveFriend(currentTargetUser);
                 setIsFollowing(false);
             }
+            console.log('Unfollowed:', currentTargetUser);
         } catch (error) {
             console.error('Error unfollowing user:', error);
         }

@@ -183,3 +183,24 @@ class UserFriendsListView(APIView):
 
         return Response(response_data, status=200)
     
+#### THIS SHOULD BE IN accounts/views.py ####
+class RemoveFriendView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request, *args, **kwargs):
+        user = request.user
+        friend_username = kwargs.get('username')
+        if not friend_username:
+            return Response({'error': 'Username is required'}, status=400)
+
+        friend = get_object_or_404(User, username=friend_username)
+        if friend not in user.friends.all():
+            return Response({'error': 'User is not in your friends list'}, status=400)
+
+        user.friends.remove(friend)
+        user.save()
+        print(f"{user.username} removed {friend.username} from friends.")  # Debug print statement
+        return Response({'status': f"{friend.username} has been removed from your friends list"}, status=200)
+        
+        
+      

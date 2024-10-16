@@ -79,20 +79,6 @@ class DeclineFriendRequestView(APIView):
         print(f"{user.username} declined friend request from {sender_netID}.")  # Debug print statement
         return Response({'status': f"Friend request from {sender_netID} has been declined."}, status=200)
     
-#### THIS SHOULD BE IN accounts/views.py ####
-class RemoveFriendView(APIView):
-    permission_classes = [IsAuthenticated]
-
-    def post(self, request, *args, **kwargs):
-        user = request.user
-        user_id = request.data.get('user_id')
-        friend = get_object_or_404(User, pk=user_id)
-
-        if friend in user.friends.all():
-            user.friends.remove(friend)
-            friend.friends.remove(user)
-            return Response({'status': f"Removed {friend.username} from your friends."}, status=200)
-        return Response({'status': 'User not found in your friends list.'}, status=400)
 
 ########## Session Invitation Views ##########
 class CreateSessionInvitationView(generics.CreateAPIView): # We will use this view to send a friend request
