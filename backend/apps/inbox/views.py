@@ -81,7 +81,7 @@ class DeclineFriendRequestView(APIView):
     
 
 ########## Session Invitation Views ##########
-class CreateSessionInvitationView(generics.CreateAPIView): # We will use this view to send a friend request
+class CreateSessionInvitationView(generics.CreateAPIView): # We will use this view to send a session request
     queryset = SessionInvitation.objects.all()
     serializer_class = SessionInvitationSerializer
     permission_classes = [IsAuthenticated]

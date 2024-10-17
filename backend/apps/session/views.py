@@ -15,8 +15,8 @@ class SessionCreateView(generics.CreateAPIView):
 
     def create(self, request, *args, **kwargs):
         request.data['created_by'] = request.user
-        serializer = self.get_serializer(data=request.data) # this will create a new instance of the UserSerializer class with the incoming data
-        print(serializer.is_valid(raise_exception=True)) # This will trigger the is_valid method in the UserSerializer class
+        serializer = self.get_serializer(data=request.data) # this will create a new instance of the sessionSerializer class with the incoming data
+        print(serializer.is_valid(raise_exception=True)) # This will trigger the is_valid method in the sessionSerializer class
         session = serializer.save() # This will trigger the create method in the SessionSerializer class
         return Response(SessionSerializer(session).data, status=status.HTTP_201_CREATED)
 

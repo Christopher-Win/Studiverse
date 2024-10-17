@@ -17,11 +17,12 @@ class Session(models.Model):
     participants = models.ManyToManyField(settings.AUTH_USER_MODEL, blank=True)
     REQUIRED_FIELDS = ['title', 'description', 'location', 'start_time', 'end_time', 'created_by', 'session_size']
     
-    """ def create(self, title, session_code, description, location, start_time, end_time, created_by, session_size, is_private, **extra_fields):
+    def create(self, title, session_code, description, location, start_time, end_time, created_by, session_size, is_private, **extra_fields):
         session = self.model(title=title, session_code=session_code, description=description, location=location, start_time=start_time, end_time=end_time, created_by=created_by, session_size=session_size, is_private=is_private, **extra_fields)
         session.save(using=self._db)
         print("Session created by ", created_by,"!")  # Debug print statement
-        return session """
+        return session 
+    
     def save(self, *args, **kwargs):
         self.session_occupany = self.participants.count()
         super().save(*args, **kwargs)
