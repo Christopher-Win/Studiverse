@@ -5,7 +5,7 @@ import '../../../index.css';
 import { GetCurrentSession } from '../../../services/Sessions/GetCurrentSessionService';
 import SessionClock from '../../../components/Sessions/SessionClock';
 
-interface Session {title: string;
+export interface Session {title: string;
     description: string;
     location: string;
     start_time: string;
@@ -13,21 +13,14 @@ interface Session {title: string;
     session_size: number;
 }
 const CurrentSession: React.FC = () => {
-    const [currentSession, setCurrentSession] = useState<Session | null>(null);
+    const [currentSession, setCurrentSession] = useState<any | null>(null);
+    const userAuthData = useAuth();
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
 
     useEffect(() => {
-        axios.get('http://localhost:8000/session/')  // Fetch the current session data
-            .then(response => 
-            {
-                setCurrentSession(response.data);
-                setLoading(false);
-            })
-            .catch(_error => {
-                setError("No active session found.");
-                setLoading(false);
-            });
+        setCurrentSession(userAuthData.userData?.currentSession); // Set the current session from the user data
+        setLoading(false);
     }, []);
     if (loading) {
         return <p>Loading session...</p>;

@@ -1,13 +1,14 @@
-import React, {useState} from 'react'
+import React, {useState,useEffect, useContext} from 'react'
 import '../../../index.css'
 import { useAuth } from '../../../Context/AuthContext';
 import Modal from './Modal';
 import SessionForm from '../../Forms/SessionForm';
-import { GetCurrentSession } from '../../../services/Sessions/GetCurrentSessionService';
+import { Session } from './CurrentSession';
 
 const Header:React.FC = () => {
-    const { userData } = useAuth(); // Get the user data from the AuthContext
+    const { userData } = useAuth(); // Get the userData from the AuthContext
     const [isModalVisible, setModalVisible] = useState(false); // State for the modal visibility
+    const [currentSession, setCurrentSession] = useState<Session | null>(null);
 
     const handleNewSessionClick = () => {
         setModalVisible(true);
@@ -15,8 +16,16 @@ const Header:React.FC = () => {
     
     const handleCloseModal = () => {
         setModalVisible(false);
+        // Re-render the Header by updating the state
+        
     };
-    console.log(userData);
+    useEffect(() => {
+        setCurrentSession(userData?.currentSession); // Set the current session from the user data
+        console.log("User Data",userData);
+    }
+    , [userData]); // This effect runs when the userData changes
+    
+    
     return (
         <header className='home-main-header'>
             <section className='home-main-header-welcome'>
@@ -24,7 +33,8 @@ const Header:React.FC = () => {
                 <p>Explore your progress and learning journey</p>
             </section>
             {/* Only display New Session button if User is not in a Session */}
-            {!(userData?.currentSession.title !== "") && (
+            {currentSession && !(currentSession.title !== "") && (
+
                 <button className="home-main-header-button" onClick={handleNewSessionClick}>
                     + New Session
                 </button>

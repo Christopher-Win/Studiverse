@@ -2,7 +2,7 @@ import React, { createContext, useContext, useState, useEffect, ReactNode } from
 import axios from 'axios';
 import { GetCurrentSession } from '../services/Sessions/GetCurrentSessionService';
 // Define the UserData interface
-interface UserData {
+export interface UserData {
     netID: string;
     username: string;
     email: string;
@@ -18,7 +18,9 @@ interface UserData {
 
 // Define the context type
 interface AuthContextType {
+    
     userData: UserData | null;
+    
     setUserData: React.Dispatch<React.SetStateAction<UserData | null>>;
     fetchUserData: () => void;
 }
