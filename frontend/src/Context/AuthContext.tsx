@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 import axios from 'axios';
-
+import { GetCurrentSession } from '../services/Sessions/GetCurrentSessionService';
 // Define the UserData interface
 interface UserData {
     netID: string;
@@ -13,6 +13,7 @@ interface UserData {
     is_active: boolean;
     is_staff: boolean;
     date_joined: string;
+    currentSession?: any;
 }
 
 // Define the context type
@@ -57,9 +58,26 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
         setUserData(null);
         }
     };
-
+    const fetchCurrentSession = async () => {
+        const token = getCookie('token');
+        console.log(`Token: ${token}`);
+        if (token) {
+        try {
+            const response = await GetCurrentSession();
+            setUserData((prevUserData) => {
+            if (prevUserData) {
+                return { ...prevUserData, currentSession: response?.data };
+            }
+            return null;
+            });
+        } catch (error) {
+            console.error('Failed to fetch current session:', error);
+        }
+        }
+    }
     useEffect(() => {
         fetchUserData(); // Fetch user data on mount if the token exists
+        fetchCurrentSession(); // Fetch current session on mount if the token exists
     }, []); // Empty dependency array ensures this runs only on mount
 
     return (

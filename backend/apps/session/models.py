@@ -1,6 +1,8 @@
 
+from datetime import datetime, timezone
 from django.db import models
 from django.conf import settings
+from django.utils import timezone
 
 class Session(models.Model):
     title = models.CharField(max_length=255)
@@ -8,7 +10,7 @@ class Session(models.Model):
     description = models.TextField(null=True, blank=True)
     location = models.CharField(max_length=255)
     # Add session date
-    start_time = models.DateTimeField()
+    start_time = models.DateTimeField(default = timezone.now)
     end_time = models.DateTimeField()
     created_by = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='created_sessions',on_delete=models.CASCADE)
     session_size = models.IntegerField()

@@ -19,7 +19,7 @@ import ActiveFriends from '../components/Home/Main/ActiveFriends';
 const Home: React.FC = () => {
     // const [sidebarOpen, setSidebarOpen] = useState(false);
     const { sidebarOpen, toggleSidebar } = useSidebar();
-
+    
     // const toggleSidebar = () => {   
     //     setSidebarOpen(!sidebarOpen);
     // }

@@ -4,7 +4,6 @@ import './SessionForm.css';
 import '../../index.css';
 import InputField from '../InputField'; // Reusing the InputField component
 import {CreateSession} from '../../services/Sessions/CreateSessionService';
-import { title } from 'process';
 interface SessionFormProps {
   onSubmit: () => void;
 }
