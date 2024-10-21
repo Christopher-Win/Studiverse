@@ -3,6 +3,7 @@ import axios from 'axios';
 import './SessionForm.css';
 import '../../index.css';
 import InputField from '../InputField'; // Reusing the InputField component
+import {CreateSession} from '../../services/Sessions/CreateSessionService';
 import { title } from 'process';
 interface SessionFormProps {
   onSubmit: () => void;
@@ -27,13 +28,11 @@ const SessionForm: React.FC<SessionFormProps> = ({ onSubmit }) => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    
     try {
-      await axios.post('/api/sessions/', formData, {
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });
-      onSubmit(); // Call a callback function to redirect or show success message
+        const result = await CreateSession(formData);
+        console.log(result);
+        onSubmit(); // Call a callback function to redirect or show success message
     } catch (error) {
       console.error('Error creating session:', error);
     }

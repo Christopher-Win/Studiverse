@@ -31,6 +31,6 @@ class SessionDetailsView(APIView):
         print("SessionDetailsView GET method called.")  # Debug print statement
         user = request.user
        
-        current_session = Session.objects.filter(participants=user).first()
-        session_data = SessionSerializer(current_session).data
+        current_session = Session.objects.filter(participants=user).first() # get the session object from the database where the user is a participant
+        session_data = SessionSerializer(current_session).data 
         return Response(session_data, status=200)   
