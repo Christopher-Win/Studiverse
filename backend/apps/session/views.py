@@ -23,7 +23,33 @@ class SessionCreateView(generics.CreateAPIView):
         session = serializer.save() # This will trigger the create method in the SessionSerializer class
         return Response(SessionSerializer(session).data, status=status.HTTP_201_CREATED)
 
+class EndSessionView(APIView):
+    permission_classes = [IsAuthenticated]
+    
+    def post(self, request, *args, **kwargs):
+        user = get_object_or_404(User,username=request.user) # get the user object from the database
+        print(user.username)
+        
+        current_session = Session.objects.filter(participants=user).first() # get the session object from the database where the user is a participant
+        print(str(current_session.created_by))
+              
+        if str(current_session.created_by) == user.username: # check if the user is the creator of the session
+            current_session.delete() # delete the session from the database
+            return Response(status=status.HTTP_200_OK)
+        else:
+            return Response(status=status.HTTP_403_FORBIDDEN)
+    
+class LeaveSessionView(APIView):
+    permission_classes = [IsAuthenticated]
+    
+    def post(self, request, *args, **kwargs):
+        user = request.user
+        current_session = Session.objects.filter(participants=user).first() # get the session object from the database where the user is a participant
+        current_session.participants.remove(user) # remove the user from the participants list
+        return Response(status=status.HTTP_200_OK)
+    
 
+# This class is used to get the details of the current session
 class SessionDetailsView(APIView):
     permission_classes = [IsAuthenticated]
     

@@ -6,8 +6,8 @@ import SessionForm from '../../Forms/SessionForm';
 import { GetCurrentSession } from '../../../services/Sessions/GetCurrentSessionService';
 
 const Header:React.FC = () => {
-    const { userData } = useAuth();
-    const [isModalVisible, setModalVisible] = useState(false);
+    const { userData } = useAuth(); // Get the user data from the AuthContext
+    const [isModalVisible, setModalVisible] = useState(false); // State for the modal visibility
 
     const handleNewSessionClick = () => {
         setModalVisible(true);
