@@ -1,4 +1,5 @@
 from django.db import models
+from apps.session.models import Session
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin
 from django.contrib.postgres.search import SearchVectorField
 from django.contrib.postgres.indexes import GinIndex
@@ -37,7 +38,8 @@ class User(AbstractBaseUser, PermissionsMixin):
     created_at = models.DateTimeField(auto_now_add=True)
     date_of_birth = models.DateField()
     profile_image = models.ImageField(upload_to='profile_images/', null=True, blank=True)
-
+    current_session = models.ForeignKey(Session, on_delete=models.SET_NULL, null=True, blank=True, related_name='users') #### Not Necessary?!
+    
     FRESHMAN = "FR"
     SOPHOMORE = "SO"
     JUNIOR = "JR"
@@ -97,6 +99,15 @@ class User(AbstractBaseUser, PermissionsMixin):
             friend.friends.remove(self)  # Remove this user from their friends' friend lists
         super().delete(*args, **kwargs)
         
+    # This will return a list of all the friends in any Session
+    def get_friends_in_any_session(self): 
+        # Get the user's friends
+        friends = self.friends.all()
+        # Get the friends who are participants in any session
+        friends_in_any_session = friends.filter(
+            netID__in=Session.objects.values_list('participants', flat=True)
+        ).distinct()
+        return friends_in_any_session
         
     def is_upperclass(self):
         return self.year_in_school in {self.JUNIOR, self.SENIOR}

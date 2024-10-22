@@ -18,9 +18,14 @@ class SessionCreateView(generics.CreateAPIView):
     def create(self, request, *args, **kwargs):
         user = get_object_or_404(User,username=request.user) # get the user object from the database
         request.data['created_by'] = user.netID # add the user's netID to the request data
+        # request.data['users'] = [user.netID] # add the user's netID to the users array in the request data
+        
+        print(request.data)
         serializer = self.get_serializer(data=request.data) # this will create a new instance of the sessionSerializer class with the incoming data
         print(serializer.is_valid(raise_exception=True)) # This will trigger the is_valid method in the sessionSerializer class
         session = serializer.save() # This will trigger the create method in the SessionSerializer class
+        user.current_session = session
+        user.save()
         return Response(SessionSerializer(session).data, status=status.HTTP_201_CREATED)
 
 class EndSessionView(APIView):
@@ -58,5 +63,5 @@ class SessionDetailsView(APIView):
         user = request.user
        
         current_session = Session.objects.filter(participants=user).first() # get the session object from the database where the user is a participant
-        session_data = SessionSerializer(current_session).data 
+        session_data = SessionSerializer(current_session).data
         return Response(session_data, status=200)   

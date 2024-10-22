@@ -15,6 +15,7 @@ urlpatterns = [
     path('friendships/<str:netID>/followers/',UserFriendsListView.as_view(), name='user-followers'), # This should return a list of users/followers for a particular account.
     path('friendships/<str:username>/remove/', RemoveFriendView.as_view(), name='remove-friend'), # This should remove a friend.
     path('<str:profileName>/add', CreateFriendRequestView.as_view(), name='request-friend-by-name'), # This should send a friend request.
+    path('friendships/activity/', ActiveFriendsView.as_view(), name="active-friends"),
     # path('<str:netID>/friends/', UserFriendsListView.as_view(), name='user-friends'), # This should return a list of users/friends for a particular account.
     
 ]

@@ -3,6 +3,7 @@ from .models import User
 from django.contrib.auth import login, logout, authenticate
 from urllib.parse import unquote
 from django.utils import timezone
+from apps.session.serializers import SessionSerializer
 
 class ExcludeFieldsMixin:
     def __init__(self, *args, exclude_fields=None, **kwargs):
@@ -69,14 +70,20 @@ class UserProfileUpdateSerializer(serializers.ModelSerializer):
         }
         
         
-class FriendSerializer(serializers.ModelSerializer):
+class FriendSerializer(ExcludeFieldsMixin, serializers.ModelSerializer):
+    sessions = serializers.SerializerMethodField()
     class Meta:
         model = User
-        fields = ['username', 'email', 'first_name', 'last_name', 'created_at', 'is_active', 'friends']
+        fields = ['username', 'email', 'first_name', 'last_name', 'created_at', 'is_active', 'friends','sessions','current_session']
         extra_kwargs = {
             'created_at': {'read_only': True},
             'is_active': {'read_only': True}
         }
+    def get_sessions(self, obj):
+        # Get the sessions the user is participating in
+
+        user_session = obj.created_sessions.all()  # Assuming there's a reverse relation from Session to User
+        return SessionSerializer(user_session, many=True).data
         
 class LoginSerializer(serializers.Serializer):
     netID = serializers.CharField() # This will be used to validate the incoming netID

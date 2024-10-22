@@ -1,15 +1,29 @@
 from rest_framework import serializers
+
 from .models import Session
 
+class ExcludeFieldsMixin:
+    def __init__(self, *args, exclude_fields=None, **kwargs):
+        super().__init__(*args, **kwargs)
+        if exclude_fields:
+            for field in exclude_fields:
+                self.fields.pop(field)
+                
 
-class SessionSerializer(serializers.ModelSerializer):
+class SessionSerializer(ExcludeFieldsMixin,serializers.ModelSerializer):
     print("Serializer instance created:")
     class Meta:
         model = Session
-        fields = ['title','session_code', 'description', 'start_time', 'end_time', 'created_by', 'location', 'session_size','is_private']
+        fields = ['title','session_code', 'description', 'start_time', 'end_time', 'created_by', 'location', 'session_size','is_private','users','participants']
         #REQUIRED_FIELDS = ['title', 'location', 'description', 'start_time', 'end_time', 'created_by', 'session_size']
         extra_kwargs = {
+            
         }
+    def get_users(self,obj):
+        from apps.accounts.serializers import UserSerializer
+
+        users = obj.users.all()  # Assuming there's a reverse relation from Session to User
+        return UserSerializer(users, many=True).data
         
     def create(self, validated_data):
         session = Session.objects.create(

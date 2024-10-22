@@ -172,7 +172,9 @@ class UserFriendsListView(APIView):
         profile = get_object_or_404(User, netID=profileNetID)
         
         friends = profile.friends.all()
-        friends_data = UserSerializer(friends, many=True).data
+        # friends_data = UserSerializer(friends, many=True).data
+        friends_data = FriendSerializer(friends, many=True).data
+
         # Structure the response similarly to Instagram
         response_data = {
             "status": "ok",
@@ -201,6 +203,20 @@ class RemoveFriendView(APIView):
         user.save()
         print(f"{user.username} removed {friend.username} from friends.")  # Debug print statement
         return Response({'status': f"{friend.username} has been removed from your friends list"}, status=200)
+    
+class ActiveFriendsView(APIView):
+    permission_classes = [IsAuthenticated]
+    
+    def get(self, request, *args, **kwargs):
+        # Get the current logged-in user
+        current_user = request.user
         
+        # Get friends who are in any session
+        friends_in_sessions = current_user.get_friends_in_any_session()
         
-      
+        # Pass the friends to the template for rendering
+        context = {
+            'friends_in_sessions': FriendSerializer(friends_in_sessions,many=True).data
+        }
+        return Response(context, status=200)
+        
