@@ -63,5 +63,8 @@ class SessionDetailsView(APIView):
         user = request.user
        
         current_session = Session.objects.filter(participants=user).first() # get the session object from the database where the user is a participant
+        if current_session is None:
+            return Response(None, status=200)
         session_data = SessionSerializer(current_session).data
+        print(session_data)
         return Response(session_data, status=200)   

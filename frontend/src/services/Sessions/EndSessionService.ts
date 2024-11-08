@@ -1,14 +1,12 @@
 import axios from "axios";
 import { getCookie } from "../CookieService";
 
-// const base_url = process.env.REACT_APP_API_BASE_URL;
-
-export const GetCurrentSession = async () => {
+export const EndCurrentSession = async () => {
     const token = getCookie('token');
     const csrftoken = getCookie('csrftoken');
     if(csrftoken){
         try {
-            const response = await axios.get(`http://localhost:8000/session/`, {
+            const response = await axios.post(`http://localhost:8000/session/end/`,{},{
                 method: 'GET',
                 headers: {
                     'X-CSRFToken': csrftoken,
@@ -16,7 +14,6 @@ export const GetCurrentSession = async () => {
                 },
                 withCredentials: true, // Send cookies with the request
             });
-            
             return response.data;
         } catch (error: any) {
             // Handle the error appropriately

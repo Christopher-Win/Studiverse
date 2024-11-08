@@ -95,7 +95,7 @@ class LoginView(APIView):
             'token',  # Name of the cookie
             token,  # Token value
             # httponly=True,  # Prevents JavaScript from accessing the cookie
-            # samesite='Lax',  # Adjust SameSite attribute as needed
+            samesite='Lax',  # Adjust SameSite attribute as needed
             expires=datetime.datetime.utcnow() + datetime.timedelta(days=7)  # Expiration
         )
         

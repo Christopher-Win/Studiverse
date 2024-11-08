@@ -3,12 +3,12 @@ import '../../../index.css'
 import { useAuth } from '../../../Context/AuthContext';
 import Modal from './Modal';
 import SessionForm from '../../Forms/SessionForm';
-import { Session } from './CurrentSession';
+import { EndCurrentSession } from '../../../services/Sessions/EndSessionService';
 
 const Header:React.FC = () => {
     const { userData } = useAuth(); // Get the userData from the AuthContext
     const [isModalVisible, setModalVisible] = useState(false); // State for the modal visibility
-    const [currentSession, setCurrentSession] = useState<Session | null>(null);
+    const {currentSession} = useAuth(); // Get the current session from the AuthContext
 
     const handleNewSessionClick = () => {
         setModalVisible(true);
@@ -18,12 +18,20 @@ const Header:React.FC = () => {
         setModalVisible(false);
         // Re-render the Header by updating the state
         
+        
     };
+    const handleEndSession = async () => {
+        const response = await EndCurrentSession(); // End the current session
+        // Re-render the Header by updating the state
+        
+        
+    };
+
     useEffect(() => {
-        setCurrentSession(userData?.currentSession); // Set the current session from the user data
-        console.log("User Data",userData);
+        
+        console.log("User Data", userData);
     }
-    , [userData]); // This effect runs when the userData changes
+    , [userData ,currentSession]); // This effect runs when the userData or currentSession changes
     
     
     return (
@@ -32,8 +40,14 @@ const Header:React.FC = () => {
                 <h2>Good morning, {userData?.first_name}!</h2>
                 <p>Explore your progress and learning journey</p>
             </section>
+            {/* Only display Leave Session button if User is in a Session */}
+            {currentSession && (currentSession.created_by === userData?.netID) && (
+                <button className="home-main-header-button" onClick={handleEndSession}>
+                    Leave Session
+                </button>
+            )}
             {/* Only display New Session button if User is not in a Session */}
-            {currentSession && !(currentSession.title !== "") && (
+            {!(currentSession) && (
 
                 <button className="home-main-header-button" onClick={handleNewSessionClick}>
                     + New Session

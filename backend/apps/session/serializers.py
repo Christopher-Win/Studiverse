@@ -15,9 +15,9 @@ class SessionSerializer(ExcludeFieldsMixin,serializers.ModelSerializer):
     class Meta:
         model = Session
         fields = ['title','session_code', 'description', 'start_time', 'end_time', 'created_by', 'location', 'session_size','is_private','users','participants']
-        #REQUIRED_FIELDS = ['title', 'location', 'description', 'start_time', 'end_time', 'created_by', 'session_size']
+        REQUIRED_FIELDS = ['title', 'location', 'description', 'start_time', 'end_time', 'created_by', 'session_size']
         extra_kwargs = {
-            
+            'users': {'read_only': True},
         }
     def get_users(self,obj):
         from apps.accounts.serializers import UserSerializer
