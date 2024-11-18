@@ -58,6 +58,7 @@ CSRF_COOKIE_HTTPONLY = False  # Should be False so you can access it via JavaScr
 CSRF_TRUSTED_ORIGINS = [
     'http://localhost:5173',  # Add this line
     'http://localhost:8000',  # If you access the frontend from the Django server directly
+    'http://127.0.0.1:5173',
 ]
 
 MIDDLEWARE = [

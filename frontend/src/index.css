@@ -299,15 +299,16 @@
 }
 .home-main-active-friends-content{
     grid-area: Content;
-    /* display: grid;
+    display: grid;
     grid-template-rows: 1fr 1fr 1fr;
     grid-template-areas: 
     "Friend1"
     "Friend2"
-    "Friend3"; */
+    "Friend3";
     border-radius: 24px;
     background-color: #3a3a3a;
 }
+
 /* MAIN GRID AREA: STATS */
 .home-main-stats{
     grid-area: stats_chart;

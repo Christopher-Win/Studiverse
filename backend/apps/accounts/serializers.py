@@ -19,7 +19,7 @@ class UserProfileRenderSerializer(ExcludeFieldsMixin, serializers.ModelSerialize
         # Modify the profile_image field before returning. This gives the proper image URL
         if obj.profile_image:
             return f"{obj.profile_image}"
-        return None
+        return 'http://localhost:8000/media/profile_images/default.png'
 
     class Meta:
         model = User
@@ -72,9 +72,17 @@ class UserProfileUpdateSerializer(serializers.ModelSerializer):
         
 class FriendSerializer(ExcludeFieldsMixin, serializers.ModelSerializer):
     sessions = serializers.SerializerMethodField()
+    profile_image = serializers.SerializerMethodField() # This will be used to get the profile image URL from the user object 
+
+    def get_profile_image(self, obj):
+        # Modify the profile_image field before returning. This gives the proper image URL
+        if obj.profile_image:
+            return f"{obj.profile_image}"
+        return 'http://localhost:8000/media/profile_images/default.png'
+    
     class Meta:
         model = User
-        fields = ['username', 'email', 'first_name', 'last_name', 'created_at', 'is_active', 'friends','sessions','current_session']
+        fields = ['username', 'email', 'first_name', 'last_name', 'created_at', 'is_active', 'friends','sessions','current_session','profile_image']
         extra_kwargs = {
             'created_at': {'read_only': True},
             'is_active': {'read_only': True}

@@ -133,8 +133,6 @@ class UserProfileView(APIView):
         # Structure response data
         data = [profile_data]
         data[0]['follow_status'] = follow_status # Add the follow status to the response data
-        data[0]['profile_image'] = str(profile.profile_image)
-        # print("Data:", data[0]['profile_image'])  # Debug print statement
         return Response(data, status=status.HTTP_200_OK)
 
 #  SEARCH FOR USERS BY USERNAME  #

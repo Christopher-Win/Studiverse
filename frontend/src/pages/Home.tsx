@@ -7,7 +7,7 @@ import Sidebar from '../components/Sidebar/Sidebar';
 import { useSidebar } from '../Context/SidebarContext';
 import Header from '../components/Home/Main/Header';
 import CurrentSession from '../components/Home/Main/CurrentSession';
-import ActiveFriends from '../components/Home/Main/ActiveFriends';
+import ActiveFriends from '../components/Home/ActiveFriends/ActiveFriends';
 
 // import SearchBar from '../components/SearchBar';
 // import MySessions from './MySessions';
