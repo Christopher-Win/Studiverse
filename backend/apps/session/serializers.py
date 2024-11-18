@@ -12,9 +12,11 @@ class ExcludeFieldsMixin:
 
 class SessionSerializer(ExcludeFieldsMixin,serializers.ModelSerializer):
     print("Serializer instance created:")
+    
     class Meta:
         model = Session
-        fields = ['title','session_code', 'description', 'start_time', 'end_time', 'created_by', 'location', 'session_size','is_private','users','participants']
+        fields = ['title','session_code', 'description', 'start_time', 'end_time', 'created_by', 'location', 'session_size','is_private','users','participants',
+                  'session_occupany']
         REQUIRED_FIELDS = ['title', 'location', 'description', 'start_time', 'end_time', 'created_by', 'session_size']
         extra_kwargs = {
             'users': {'read_only': True},
@@ -38,5 +40,5 @@ class SessionSerializer(ExcludeFieldsMixin,serializers.ModelSerializer):
             is_private=validated_data['is_private']
         )
         session.participants.add(validated_data['created_by'])
-        session.session_occupany += 1
+        session.session_occupany += 1 # Increment the session occupancy by 1
         return session

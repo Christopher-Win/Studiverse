@@ -18,7 +18,7 @@ export const CreateSession = async (sessionData:SessionData) => {
     const csrftoken = getCookie('csrftoken');
     if(csrftoken){
         try {
-            const response = await axios.post(`http://localhost:8000/session/create/`,sessionData, {
+            const response = await axios.post(`http://localhost:8000/session/`,sessionData, {
                 method: 'POST',
                 headers: {
                     'X-CSRFToken': csrftoken,

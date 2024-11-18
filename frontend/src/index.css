@@ -208,13 +208,19 @@
     grid-template-areas: 
         "header"
         "current_session"
+        /* "session_discovery" */
         "active_friends"
         "stats_chart";
 
     row-gap: 8px;
 }
 /* MAIN GRID AREA: HEADER */
-
+.home-main-session-discovery{
+    grid-area: session_discovery;
+    display: grid;
+    grid-template-columns: 1fr auto; /* Main content and button on the right */
+    line-height: 1.2;
+}
 .home-main-header{
     grid-area: header;
     display: grid;

@@ -18,7 +18,6 @@ const HomeHeader: React.FC = () => {
         <>
             <SearchBar/>
             <LogoutButton />
-            
         </>
     );
 };

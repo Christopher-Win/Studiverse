@@ -10,61 +10,64 @@ from .serializers import *
 from .models import Session
 
 # Create your views here.
-class SessionCreateView(generics.CreateAPIView):
-    queryset = Session.objects.all()
-    serializer_class = SessionSerializer
+
+class SessionView(APIView):
+    """
+    Integrated Session View:
+    - POST for creating a session
+    - GET for retrieving the current session details
+    - DELETE for ending a session (if the user is the creator)
+    - PATCH for leaving a session (if the user is a participant)
+    - GET (with 'all' query param) for fetching all active public sessions
+    """
     permission_classes = [IsAuthenticated]
 
-    def create(self, request, *args, **kwargs):
-        user = get_object_or_404(User,username=request.user) # get the user object from the database
-        request.data['created_by'] = user.netID # add the user's netID to the request data
-        # request.data['users'] = [user.netID] # add the user's netID to the users array in the request data
-        
-        print(request.data)
-        serializer = self.get_serializer(data=request.data) # this will create a new instance of the sessionSerializer class with the incoming data
-        print(serializer.is_valid(raise_exception=True)) # This will trigger the is_valid method in the sessionSerializer class
-        session = serializer.save() # This will trigger the create method in the SessionSerializer class
+    def post(self, request, *args, **kwargs):
+        """Create a new session."""
+        user = get_object_or_404(User, username=request.user)
+        request.data['created_by'] = user.netID
+        serializer = SessionSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        session = serializer.save()
         user.current_session = session
         user.save()
         return Response(SessionSerializer(session).data, status=status.HTTP_201_CREATED)
 
-class EndSessionView(APIView):
-    permission_classes = [IsAuthenticated]
-    
-    def post(self, request, *args, **kwargs):
-        user = get_object_or_404(User,username=request.user) # get the user object from the database
-        print(user.username)
-        
-        current_session = Session.objects.filter(participants=user).first() # get the session object from the database where the user is a participant
-        print(str(current_session.created_by))
-              
-        if str(current_session.created_by) == user.username: # check if the user is the creator of the session
-            current_session.delete() # delete the session from the database
-            return Response(status=status.HTTP_200_OK)
-        else:
-            return Response(status=status.HTTP_403_FORBIDDEN)
-    
-class LeaveSessionView(APIView):
-    permission_classes = [IsAuthenticated]
-    
-    def post(self, request, *args, **kwargs):
-        user = request.user
-        current_session = Session.objects.filter(participants=user).first() # get the session object from the database where the user is a participant
-        current_session.participants.remove(user) # remove the user from the participants list
-        return Response(status=status.HTTP_200_OK)
-    
-
-# This class is used to get the details of the current session
-class SessionDetailsView(APIView):
-    permission_classes = [IsAuthenticated]
-    
     def get(self, request, *args, **kwargs):
-        print("SessionDetailsView GET method called.")  # Debug print statement
+        """Retrieve the current session details or all active sessions."""
         user = request.user
-       
-        current_session = Session.objects.filter(participants=user).first() # get the session object from the database where the user is a participant
+        query_param = request.query_params.get('all', None)
+
+        if query_param == 'true':
+            # Fetch all active public sessions
+            active_sessions = Session.objects.filter(is_private=False).order_by('-start_time') # Get all active sessions that are not private and have not ended and order by start time
+            print(active_sessions)
+            session_data = SessionSerializer(active_sessions, many=True).data # Serialize the data for the response and return it 
+            print(session_data)
+            return Response(session_data, status=status.HTTP_200_OK)
+
+        # Default behavior: Get the current session for the user
+        current_session = Session.objects.filter(participants=user).first()
         if current_session is None:
-            return Response(None, status=200)
+            return Response(None, status=status.HTTP_200_OK)
+
         session_data = SessionSerializer(current_session).data
-        print(session_data)
-        return Response(session_data, status=200)   
+        return Response(session_data, status=status.HTTP_200_OK)
+
+    def delete(self, request, *args, **kwargs):
+        """End the session if the user is the creator."""
+        user = get_object_or_404(User, username=request.user)
+        current_session = Session.objects.filter(participants=user).first()
+        if current_session and str(current_session.created_by) == user.username:
+            current_session.delete()
+            return Response({"message": "Session ended successfully."}, status=status.HTTP_200_OK)
+        return Response({"error": "You are not authorized to end this session."}, status=status.HTTP_403_FORBIDDEN)
+
+    def patch(self, request, *args, **kwargs):
+        """Leave the current session."""
+        user = request.user
+        current_session = Session.objects.filter(participants=user).first()
+        if current_session:
+            current_session.participants.remove(user)
+            return Response({"message": "You have left the session."}, status=status.HTTP_200_OK)
+        return Response({"error": "You are not part of any session."}, status=status.HTTP_400_BAD_REQUEST)

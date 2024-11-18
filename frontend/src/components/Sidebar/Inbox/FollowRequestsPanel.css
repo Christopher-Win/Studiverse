@@ -4,7 +4,7 @@
     position: absolute; /* Absolute positioning for control within parent */
     top: 0; /* Align to the top */
     left: 73px; /* Position according to your layout */
-    height: 958px; /* Set height as seen in the screenshot */
+    height: 100%; /* Set height as seen in the screenshot */
     width: 397px; /* Set width as seen in the screenshot */
     background-color: #1c1e21; /* Background color */
     color: #f5f5f5; /* Text color */
