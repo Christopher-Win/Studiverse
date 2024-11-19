@@ -1,9 +1,8 @@
 import apiClient from '../../apiClient';
 
-export const JoinSession = async (sessionCode: string) => {
+export const LeaveSession = async () => {
     try {
-        const response = await apiClient.put('/session/', {
-            session_code: sessionCode,
+        const response = await apiClient.patch('/session/leave/', {
         });
         return response.data;
     } catch (error) {

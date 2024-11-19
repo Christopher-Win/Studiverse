@@ -4,6 +4,7 @@ import { useAuth } from '../../../Context/AuthContext';
 import Modal from './Modal';
 import SessionForm from '../../Forms/SessionForm';
 import { EndCurrentSession } from '../../../services/Sessions/EndSessionService';
+import LeaveSessionButton from '../../Sessions/LeaveSessionButton';
 
 const Header:React.FC = () => {
     const { userData } = useAuth(); // Get the userData from the AuthContext
@@ -21,14 +22,12 @@ const Header:React.FC = () => {
         
     };
     const handleEndSession = async () => {
-        const response = await EndCurrentSession(); // End the current session
-        // Re-render the Header by updating the state
         
+        // Re-render the Header by updating the state
         
     };
 
     useEffect(() => {
-        
         console.log("User Data", userData);
     }
     , [userData ,currentSession]); // This effect runs when the userData or currentSession changes
@@ -41,11 +40,14 @@ const Header:React.FC = () => {
                 <p>Explore your progress and learning journey</p>
             </section>
             {/* Only display Leave Session button if User is in a Session */}
-            {currentSession && (currentSession.created_by === userData?.netID) && (
+            {currentSession && (currentSession.created_by === userData?.netID)? (
                 <button className="home-main-header-button" onClick={handleEndSession}>
-                    Leave Session
+                    End Session
                 </button>
+            ): currentSession && (currentSession.created_by !== userData?.netID) && (
+                <LeaveSessionButton onLeaveSuccess={handleEndSession}/>
             )}
+
             {/* Only display New Session button if User is not in a Session */}
             {!(currentSession) && (
 

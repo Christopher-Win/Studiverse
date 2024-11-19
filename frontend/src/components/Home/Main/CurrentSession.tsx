@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import '../../../index.css';
 import SessionClock from '../../../components/Sessions/SessionClock';
-
+import LeaveSessionButton from '../../Sessions/LeaveSessionButton';
 export interface Session {
     title: string;
     description: string;
@@ -42,6 +42,7 @@ const CurrentSession: React.FC = () => {
                         <h2 className='mt-[1.5px] text-[18px]'>{currentSession?.title}</h2>
                         <SessionClock sessionId={currentSession.session_code}/>
                     </header>
+                    
                     <header className='home-main-current-session-location'>
                         <h1 className='pr-1'>Location:</h1>
                         <h2>{currentSession?.location}</h2>

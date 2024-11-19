@@ -37,7 +37,7 @@ const SessionDiscovery: React.FC = () => {
             setError("Failed to fetch active sessions");
             setLoading(false);
         });
-    }, []);
+    }, [currentSession]);
 
     if (loading) return <p>Loading sessions...</p>;
     if (error) return <p>{error}</p>;

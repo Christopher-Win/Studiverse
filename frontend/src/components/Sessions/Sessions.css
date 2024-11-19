@@ -1,0 +1,24 @@
+.button{
+    grid-area: button;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+.button.leave{
+    padding-left: 12px;
+    padding-right: 12px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    height: 50px;
+    width: 114px;
+    /* background-color: #ff0000; */
+    color: #fff;
+    border: 1px solid #ffffff;
+    border-radius: 20px;
+    cursor: pointer;
+}
+button.leave:hover {
+    transition: background-color 0.2s ease;
+    background-color: #a80505;
+}

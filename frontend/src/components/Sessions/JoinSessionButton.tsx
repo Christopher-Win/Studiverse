@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { JoinSession } from '../../services/Sessions/JoinSessionService';
+import { useAuth } from '../../Context/AuthContext';
 
 interface JoinSessionButtonProps {
   sessionCode: string; // The unique code for the session
@@ -9,6 +10,7 @@ interface JoinSessionButtonProps {
 const JoinSessionButton: React.FC<JoinSessionButtonProps> = ({ sessionCode, onJoinSuccess }) => {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
+    const { fetchCurrentSession } = useAuth();
 
     const handleJoin = async () => {
             setLoading(true);
@@ -16,6 +18,7 @@ const JoinSessionButton: React.FC<JoinSessionButtonProps> = ({ sessionCode, onJo
 
             try {
                 await JoinSession(sessionCode);
+                await fetchCurrentSession(); // Refresh the current session
                 setLoading(false);
 
                 if (onJoinSuccess) {
