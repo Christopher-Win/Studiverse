@@ -41,4 +41,5 @@ class SessionSerializer(ExcludeFieldsMixin,serializers.ModelSerializer):
         )
         session.participants.add(validated_data['created_by'])
         session.session_occupancy += 1 # Increment the session occupancy by 1
+        
         return session

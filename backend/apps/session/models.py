@@ -4,6 +4,8 @@ from django.db import models
 from django.conf import settings
 from django.utils import timezone
 
+
+
 class Session(models.Model):
     title = models.CharField(max_length=255)
     session_code = models.CharField(primary_key=True, max_length=10)
@@ -32,3 +34,9 @@ class Session(models.Model):
     
     def __str__(self):
         return self.session_code
+    
+class SessionHistory(models.Model):
+    user = models.ForeignKey('accounts.User', on_delete=models.CASCADE, related_name="session_history")
+    session = models.ForeignKey(Session, on_delete=models.CASCADE, related_name="user_history")
+    joined_at = models.DateTimeField(auto_now_add=True)
+    left_at = models.DateTimeField(null=True, blank=True)  # When the user left the session
