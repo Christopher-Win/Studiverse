@@ -1,10 +1,13 @@
-import React, { useEffect, useState } from 'react';
+import React, { Key, useEffect, useState } from 'react';
 import { GetActiveSessions } from '../../../services/Sessions/GetActiveSessionsService';
 import './SessionDiscovery.css';
 import SessionDuration from '../../Sessions/SessionDuration';
+import JoinSessionButton from '../../Sessions/JoinSessionButton';
+import { useAuth } from '../../../Context/AuthContext';
 
 const SessionDiscovery: React.FC = () => {
     interface Session {
+        session_code: string;
         id: string;
         title: string;
         description: string;
@@ -18,12 +21,16 @@ const SessionDiscovery: React.FC = () => {
     const [sessions, setSessions] = useState<Session[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
+    const {currentSession} = useAuth(); // Get the current session from the AuthContext
 
     useEffect(() => {
         setLoading(true);
         GetActiveSessions()
         .then((data) => {
-            setSessions(data);
+            const filteredSessions = data.filter(
+                (session: Session) => session.session_code!=currentSession.session_code // Replace with actual condition from API
+            );
+            setSessions(filteredSessions);
             setLoading(false);
         })
         .catch((error) => {
@@ -35,8 +42,17 @@ const SessionDiscovery: React.FC = () => {
     if (loading) return <p>Loading sessions...</p>;
     if (error) return <p>{error}</p>;
 
-    const handleJoin = async () => {
+    const handleJoinSuccess = async () => {
         // Handle join session
+        // Refresh the list of active sessions
+        await GetActiveSessions()
+        .then((data) => {
+            setSessions([...data]);
+        })
+        .catch((error) => {
+            setError("Failed to fetch active sessions");
+        });
+        alert("Successfully joined session!");
 
     };
 
@@ -50,7 +66,7 @@ const SessionDiscovery: React.FC = () => {
         ) : (
             <ul>
                 {sessions.map((session) => (
-                    <li key={session.id}>
+                    <li key={session.session_code}>
                         <div className='session-grid'>
                             <div className="title">
                                 <span className="session-info">
@@ -68,11 +84,12 @@ const SessionDiscovery: React.FC = () => {
                                 <SessionDuration start_time={session.start_time}/>
 
                             </div>
-
+                           { !currentSession ?
                             <div className='button'>
-                                <button className='btn btn-primary' onClick={handleJoin}>Join</button> 
+                                <JoinSessionButton sessionCode={session.session_code} onJoinSuccess={handleJoinSuccess}/>
+                                {/* <button className='btn btn-primary' onClick={handleJoin}>Join</button>  */}
                             </div>
-
+                            : null}
                         </div>
                     </li>
                 ))}

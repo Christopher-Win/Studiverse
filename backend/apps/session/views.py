@@ -112,13 +112,13 @@ class LeaveSessionView(APIView):
             current_session.participants.remove(user)
             # Update the user's session history
             session_history = SessionHistory.objects.filter(
-                user=user, session=current_session, left_at__isnull=True
+                user=user, session=current_session, left_at__isnull=True 
             ).first() # Get the user's session history for the current session
             if session_history: # If the session history exists, update the left_at field
                 session_history.left_at = datetime.now()
                 session_history.save()
 
-            return Response({"message": "You have left the session."}, status=status.HTTP_200_OK)
+            return Response({"message": "You have left the session."}, status=status.HTTP_200_OK) # Return a success message
 
-        return Response({"error": "You are not part of any session."}, status=status.HTTP_400_BAD_REQUEST)
+        return Response({"error": "You are not part of any session."}, status=status.HTTP_400_BAD_REQUEST) # Return an error message
   

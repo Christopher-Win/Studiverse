@@ -26,7 +26,7 @@ interface AuthContextType { // This is where we define the AuthContextType that 
 }
 
 export const getCookie = (name: string) => {
-    console.log(`Getting cookie: ${name}`);
+    // console.log(`Getting cookie: ${name}`);
     const value = `; ${document.cookie}`;
     const parts = value.split(`; ${name}=`);
     if (parts.length === 2) return parts.pop()?.split(';').shift();
@@ -43,7 +43,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     // Fetch the user data from the backend
     const fetchUserData = async () => {
         const token = getCookie('token');
-        console.log(`Token: ${token}`);
+        // console.log(`Token: ${token}`);
         if (token) {
         try {
             const response = await axios.get('http://localhost:8000/accounts/profile/', {
@@ -65,7 +65,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     // Fetch the current session from the backend
     const fetchCurrentSession = async () => { 
         const token = getCookie('token');
-        console.log(`Token: ${token}`);
+        // console.log(`Token: ${token}`);
         if (token) {
             try {
                 const sessionData = await GetCurrentSession();

@@ -1,6 +1,5 @@
 import apiClient from '../../apiClient';
 
-
 export const JoinSession = async (sessionCode: string) => {
   try {
         const response = await apiClient.put('/session/', {
