@@ -15,7 +15,7 @@ class Session(models.Model):
     created_by = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='created_sessions',on_delete=models.CASCADE)
     session_size = models.IntegerField()
     is_private = models.BooleanField(default=True)
-    session_occupany = models.IntegerField(default=0)
+    session_occupancy = models.IntegerField(default=0)
     participants = models.ManyToManyField(settings.AUTH_USER_MODEL, blank=True)
     REQUIRED_FIELDS = ['title', 'description', 'location', 'start_time', 'end_time', 'created_by', 'session_size']
     
@@ -26,7 +26,7 @@ class Session(models.Model):
         return session 
     
     def save(self, *args, **kwargs):
-        self.session_occupany = self.participants.count()
+        self.session_occupancy = self.participants.count()
         super().save(*args, **kwargs)
 
     

@@ -10,6 +10,7 @@ interface Session {
     end_time: string;
     created_by: string;
     location: string;
+    session_occupancy: number;
     session_size: number;
     is_private: boolean;
     users: string[];

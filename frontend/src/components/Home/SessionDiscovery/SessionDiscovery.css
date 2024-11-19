@@ -4,6 +4,57 @@
     border-radius: 10px;
     color: #f1f1f1;
   }
+  .session-grid{
+    display: grid;
+    display: grid;
+    grid-template-columns: .7fr .3fr;
+    grid-template-areas: 
+    "title button"
+    "description button"
+    "details button"
+    "details button";
+    row-gap: 5px;
+  }
+  .title {
+    grid-area: title;
+    display: flex; /* Ensures child elements are placed in a row */
+    flex-direction: column;
+    align-items: center; /* Aligns elements vertically */
+    justify-content: space-between; /* Adjusts spacing between elements */
+  }
+  .details{
+    grid-area: details;
+    display: flex;
+    font-size: 18px;
+    flex-direction: column;
+    line-height: 18px;
+  }
+  .button{
+    grid-area: button;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .session-info {
+    display: flex;
+    align-items: center;
+  }
+  
+  .session-info p {
+    grid-area: details;
+    margin-right: 8px; /* Adds space between the title and occupancy */
+  }
+  
+  .session-occupancy {
+    display: flex;
+    align-items: center;
+    font-size: 14px; /* Adjust as necessary for readability */
+    color: #b6b6b6; /* Subtle color for occupancy */
+  }
+  
+  .session-occupancy i {
+    margin-right: 4px; /* Adds space between the icon and the text */
+  }
   
   .session-discovery h2 {
     margin-bottom: 10px;
@@ -22,8 +73,13 @@
   }
   
   .session-discovery button {
-    padding: 8px 12px;
-    background-color: #6200ea;
+    padding-left: 12px;
+    padding-right: 12px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    height: 50px;
+    width: 114px;
+    background-color: #000000;
     color: #fff;
     border: none;
     border-radius: 5px;
@@ -31,5 +87,5 @@
   }
   
   .session-discovery button:hover {
-    background-color: #3700b3;
+    background-color: #262626;
   }
