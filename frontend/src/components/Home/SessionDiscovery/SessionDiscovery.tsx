@@ -84,12 +84,18 @@ const SessionDiscovery: React.FC = () => {
                                 <SessionDuration start_time={session.start_time}/>
 
                             </div>
-                           { !currentSession ?
+                           { (session.session_occupancy==session.session_size) ?
+                            <div className='button'>
+                                <p className='font-extrabold'>Session Full</p>
+                            </div> :
+                           (!currentSession && (session.session_occupancy!==session.session_size))?
                             <div className='button'>
                                 <JoinSessionButton sessionCode={session.session_code} onJoinSuccess={handleJoinSuccess}/>
-                                {/* <button className='btn btn-primary' onClick={handleJoin}>Join</button>  */}
                             </div>
-                            : null}
+                            :   <div className='button'>
+                                    <a href='/session/session_code?' className='font-extrabold'>View</a>
+                                </div>
+                            }
                         </div>
                     </li>
                 ))}

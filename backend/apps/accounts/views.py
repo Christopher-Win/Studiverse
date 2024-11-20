@@ -5,6 +5,9 @@ from .serializers import *
 from .models import User
 from ..inbox.models import FriendRequest
 
+from ..session.models import SessionHistory
+from ..session.serializers import RecentActivitySessionSerializer
+
 from django.contrib.auth import login
 from rest_framework.authtoken.models import Token
 from rest_framework.permissions import IsAuthenticated, AllowAny
@@ -201,6 +204,23 @@ class RemoveFriendView(APIView):
         user.save()
         print(f"{user.username} removed {friend.username} from friends.")  # Debug print statement
         return Response({'status': f"{friend.username} has been removed from your friends list"}, status=200)
+
+# Get recent activity of the current user 
+class RecentActivityView(APIView):
+    permission_classes = [IsAuthenticated]
+    
+    def get(self, request, *args, **kwargs):
+        # Get the current logged-in user
+        current_user = request.user
+        recent_activity = SessionHistory.objects.filter(user=current_user).order_by('-joined_at')[:3] # Get the 3 most recent sessions the user has joined
+        
+        # Serialize both Session and SessionHistory data
+        recent_sessions = [
+                RecentActivitySessionSerializer(
+                    entry.session, context={'user': current_user,'session_history': entry} # Pass the current user and session history to the serializer
+                ).data for entry in recent_activity
+            ]
+        return Response({ 'recent_sessions' : recent_sessions }, status=200) 
     
 class ActiveFriendsView(APIView):
     permission_classes = [IsAuthenticated]

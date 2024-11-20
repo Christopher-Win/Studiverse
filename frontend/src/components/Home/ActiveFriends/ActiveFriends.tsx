@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-// import '../../../index.css'
+import '../../../index.css'
 import './ActiveFriends.css';
 import { useAuth } from '../../../Context/AuthContext';
 import { getActiveFriends } from '../../../services/Friendships/FriendshipsService';

@@ -8,7 +8,8 @@ urlpatterns = [
     path('profile/', UserProfileRenderView.as_view(), name='current-user-profile'),
     path('edit/', UserProfileUpdateView.as_view(), name='user-profile-update'),
     path('uploadProfileImage/', UploadProfileImageView.as_view(), name='uploadProfileImage'),
-
+    path('recent-activity/', RecentActivityView.as_view(), name='recent-activity'),
+    
     path('<str:profileName>/', UserProfileView.as_view(), name='user-profile-by-name'),
     path('search/<str:query>/', UserSearchView.as_view(), name='user-search'),
     # path('search/<str:query>/', SessionSearchView.as_view(), name='session-search'),

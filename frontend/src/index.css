@@ -210,9 +210,12 @@
         "current_session"
         /* "session_discovery" */
         "active_friends"
-        "stats_chart";
-
+        "stats";
     row-gap: 8px;
+    max-height: inherit;
+    max-height: 100vh;
+    overflow-y: hidden;
+    /* overflow-y: auto; */
 }
 /* MAIN GRID AREA: HEADER */
 .home-main-session-discovery{
@@ -317,7 +320,84 @@
 
 /* MAIN GRID AREA: STATS */
 .home-main-stats{
-    grid-area: stats_chart;
+    grid-area: stats;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    grid-template-rows: .1fr .9fr;
+    row-gap: 10px;
+    grid-template-areas: 
+    "Title"
+    "Content";
+}
+
+.home-main-stats-title{
+    grid-area: Title;
+    color:white;
+}
+.home-main-stats-content{
+    grid-area: Content;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-areas: 
+    "Stat1 Stat2 Stat3";
+    border-radius: 24px;
+    background-color: #3a3a3a;
+}
+
+/* Styles for each Stat */
+.stat {
+    background-color: #2b2b2b;
+    border-radius: 16px;
+    padding: 16px;
+    text-align: center;
+    color: #ffffff;
+}
+/* Styles for individual stats */
+.stat1 {
+    /* Custom styles for Stat 1 */
+    grid-area: Stat1;
+    background-color: #2b2b2b;
+    border-radius: 16px;
+    padding: 16px;
+    margin: 10px;
+
+    text-align: center;
+    color: #ffffff;
+}
+
+.stat2 {
+    /* Custom styles for Stat 2 */
+    grid-area: Stat2;
+    background-color: #2b2b2b;
+    border-radius: 16px;
+    padding: 16px;
+    margin: 10px;
+    text-align: center;
+    color: #ffffff;
+    
+}
+
+.stat3 {
+    /* Custom styles for Stat 3 */
+    grid-area: Stat3;
+    background-color: #2b2b2b;
+    border-radius: 16px;
+    padding: 16px;
+    margin: 10px;
+    text-align: center;
+    color: #ffffff;
+}
+
+.stat-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: 8px;
+}
+
+.stat-value {
+    font-size: 2rem;
+    font-weight: bold;
+    color: #6200EA;
 }
 /* Home Page Grid: SCHEDULE */
 .home-schedule{

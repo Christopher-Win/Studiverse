@@ -4,6 +4,7 @@ import axios from 'axios';
 import '../../../index.css';
 import SessionClock from '../../../components/Sessions/SessionClock';
 import LeaveSessionButton from '../../Sessions/LeaveSessionButton';
+
 export interface Session {
     title: string;
     description: string;

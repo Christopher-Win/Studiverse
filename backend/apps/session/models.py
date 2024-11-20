@@ -40,3 +40,5 @@ class SessionHistory(models.Model):
     session = models.ForeignKey(Session, on_delete=models.CASCADE, related_name="user_history")
     joined_at = models.DateTimeField(auto_now_add=True)
     left_at = models.DateTimeField(null=True, blank=True)  # When the user left the session
+    
+    

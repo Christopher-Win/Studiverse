@@ -9,6 +9,7 @@ import Header from '../components/Home/Main/Header';
 import CurrentSession from '../components/Home/Main/CurrentSession';
 import ActiveFriends from '../components/Home/ActiveFriends/ActiveFriends';
 import SessionDiscovery from '../components/Home/SessionDiscovery/SessionDiscovery';
+import { RecentActivity } from '../components/Home/Main/RecentActivity';
 
 // import SearchBar from '../components/SearchBar';
 // import MySessions from './MySessions';
@@ -44,12 +45,15 @@ const Home: React.FC = () => {
             <Header />
             <CurrentSession />
             <ActiveFriends />
+            <RecentActivity />
         </main>
 
         <aside className="home-schedule">
             <SessionDiscovery />
             <p>Calendar</p>
         </aside>
+
+
     </div>
   );
 };
