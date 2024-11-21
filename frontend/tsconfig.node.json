@@ -1,5 +1,10 @@
 {
   "compilerOptions": {
+    "paths": {
+      "@/components/*": ["/src/components/*"],
+      "@/pages/*": ["/src/pages/*"],
+      "@/utils/*": ["/src/utils/*"]
+    },
     "target": "ES2022",
     "lib": ["ES2023"],
     "module": "ESNext",
